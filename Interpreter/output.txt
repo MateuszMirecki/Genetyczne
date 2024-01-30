@@ -1,0 +1,1 @@
+B1=TrueB2=Falsewrite(B1)write(B2)

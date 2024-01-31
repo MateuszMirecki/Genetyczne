@@ -61,8 +61,8 @@ from operations import EvolutionOperations
 ### POCZAĄTEK TESTÓW JEDNEGO TESTOW###
 
 # ROBIY POPULACJE
-population = [generateTree() for i in range(5)] #Zwraca losową populację
-popolation_len = len(population)
+# population = [generateTree() for i in range(5)] #Zwraca losową populację
+# popolation_len = len(population)
 
 ## LICZYMY FITNESS DLA POPULACJI
 # input, expected_output = read_data("../Inputs/example_1_1_A.txt") #Zwraca input i output z pliku
@@ -92,17 +92,17 @@ popolation_len = len(population)
 
 ### TEST INTERPRETERA ###
 
-# tree = generateTree() #Zwraca losowe drzewo
-# input, output = read_data("../Inputs/example_1_1_A.txt") #Zwraca input i output z pliku
-# # print(input, output)
+tree = generateTree() #Zwraca losowe drzewo
+input, output = read_data("../Inputs/example_1_1_A.txt") #Zwraca input i output z pliku
+# print(input, output)
 
-# test = "X1 = 6 X2 = 1 while(X1>0){X2 = X2*X1 X1 = X1-1} write(X2)"
-# inf = "while (X1 > -5) { X2 = 2}"
+test = "X1 = 6 X2 = 1 while(X1>0){X2 = X2*X1 X1 = X1-1} write(X2)"
+inf = "while (X1 > -5) { X2 = 2}"
 
-# interpreter = Interpreter(input_values=[1,2,3], test=test) 
-# result = interpreter.run() #Zwraca wynik testu
-# print("Wynik testu:")
-# print(f"Output {result[0]}")
-# print(f"Variables {result[1]}")
-# print(f"Counter {result[2]}")
-# print(f"Input_values {result[3]}")
+interpreter = Interpreter(input_values=[1,2,3], test=test) 
+result = interpreter.run() #Zwraca wynik testu
+print("Wynik testu:")
+print(f"Output {result[0]}")
+print(f"Variables {result[1]}")
+print(f"Counter {result[2]}")
+print(f"Input_values {result[3]}")

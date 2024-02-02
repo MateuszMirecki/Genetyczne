@@ -1,5 +1,5 @@
 from typing import Any
-from NodeType import NodeType
+from GP.NodeType import NodeType
 import random
 
 MAX_NUMBER_OF_GENERATED_EXPRESSIONS = 1
@@ -16,7 +16,8 @@ class Node:
                  isterminal: bool = False,
                  parent = None,
                  embedded_expressions = 0,
-                 max_if_depth=0
+                 max_if_depth=0,
+                 current_deepth=0
                  ):
         self.node_type = node_type
         self.value = value
@@ -25,6 +26,7 @@ class Node:
         self.isterminal = isterminal
         self.embedded_expressions = embedded_expressions
         self.max_if_depth = max_if_depth
+        self.current_deepth = current_deepth
 
 
     def __str__(self):
@@ -37,7 +39,7 @@ class Node:
         return str
 
     def printTree(self) -> str:
-        return self._buildTreeString()
+        print(self._buildTreeString())
 
     def _buildTreeString(self) -> str:
         tree_str = ""
@@ -256,4 +258,5 @@ def generateTree():
     return root
 
 if __name__ == "__main__":
-    generateTree()
+   root = generateTree()
+   root.printTree()

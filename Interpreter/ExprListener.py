@@ -1,16 +1,26 @@
 # Generated from Expr.g4 by ANTLR 4.13.1
 from antlr4 import *
-if "." in __name__:
-    from .ExprParser import ExprParser
-else:
-    from ExprParser import ExprParser
+# if "." in __name__:
+#     from .ExprParser import ExprParser
+# else:
+#     from ExprParser import ExprParser
+
+from Interpreter.ExprVisitor import ExprVisitor
+from Interpreter.ExprParser import ExprParser
+from Interpreter.ExprLexer import ExprLexer
+from GP.NodeType import NodeType
+from GP.Node import Node
 
 # This class defines a complete listener for a parse tree produced by ExprParser.
 class ExprListener(ParseTreeListener):
 
+    def __init__(self):
+        self.current_node: Node = None
+
+
     # Enter a parse tree produced by ExprParser#program.
     def enterProgram(self, ctx:ExprParser.ProgramContext):
-        pass
+        self.current_node = Node(NodeType.program)
 
     # Exit a parse tree produced by ExprParser#program.
     def exitProgram(self, ctx:ExprParser.ProgramContext):
@@ -19,11 +29,13 @@ class ExprListener(ParseTreeListener):
 
     # Enter a parse tree produced by ExprParser#expressions.
     def enterExpressions(self, ctx:ExprParser.ExpressionsContext):
-        pass
+        expression_node = Node(NodeType.expressions, parent=self.current_node)
+        self.current_node.children.append(expression_node)
+        self.current_node = expression_node
 
     # Exit a parse tree produced by ExprParser#expressions.
     def exitExpressions(self, ctx:ExprParser.ExpressionsContext):
-        pass
+        self.current_node = self.current_node.parent
 
 
     # Enter a parse tree produced by ExprParser#if_statement.
@@ -73,7 +85,7 @@ class ExprListener(ParseTreeListener):
 
     # Enter a parse tree produced by ExprParser#assignment.
     def enterAssignment(self, ctx:ExprParser.AssignmentContext):
-        pass
+        print(ctx.getText())
 
     # Exit a parse tree produced by ExprParser#assignment.
     def exitAssignment(self, ctx:ExprParser.AssignmentContext):
@@ -82,7 +94,7 @@ class ExprListener(ParseTreeListener):
 
     # Enter a parse tree produced by ExprParser#bool_value.
     def enterBool_value(self, ctx:ExprParser.Bool_valueContext):
-        pass
+        print(ctx.getText())
 
     # Exit a parse tree produced by ExprParser#bool_value.
     def exitBool_value(self, ctx:ExprParser.Bool_valueContext):
@@ -95,8 +107,20 @@ class ExprListener(ParseTreeListener):
 
     # Exit a parse tree produced by ExprParser#numeric_value.
     def exitNumeric_value(self, ctx:ExprParser.Numeric_valueContext):
-        pass
+        print(ctx.getText())
 
 
 
-del ExprParser
+# del ExprParser
+
+if __name__ == "__main__":
+    test = "X1 = 6 X2 = 1 while(X1>0){X2 = X2*X1 X1 = X1-1} write(X2)"
+    test2 = "X1 = 6"
+
+    lexer = ExprLexer(InputStream(test2))
+    stream = CommonTokenStream(lexer)
+    parser = ExprParser(stream)
+    tree = parser.program()
+    listener = ExprListener()
+    walker = ParseTreeWalker()
+    walker.walk(listener, tree)

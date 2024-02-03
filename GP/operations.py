@@ -39,28 +39,42 @@ class EvolutionOperations:
     
 
     def crossover(self, parent1: Node, parent2: Node):
-        parent1_random_node = self.getRandomNodeFasade(parent1)
-        parent2_random_node = self.getRandomNodeFasade(parent2)
+        types_for_crossover = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val,
+                              NodeType.read_var, NodeType.assignment, NodeType.bool_value, NodeType.numeric_value]
 
-        counter = 0
-        while parent2_random_node.node_type != parent1_random_node.node_type:
-            parent2_random_node = self.getRandomNodeFasade(parent2)
-            counter += 1
-            if counter > 100:
-                return RuntimeError("Crossover failed no matching node types found")
+        random_node1 = self.getRandomNode(parent1)
+        random_node2 = self.getRandomNode(parent2)
+        timer = 0
+
+        while random_node1.node_type != random_node2.node_type:
+            random_node1 = self.getRandomNode(parent1)
+            while (not random_node1.node_type in types_for_crossover):
+                random_node1 = self.getRandomNode(parent1)
+            random_node2 = self.getRandomNode(parent2)
+            rounds = 0
+            while (random_node1.node_type != random_node2.node_type):
+                random_node2 = self.getRandomNode(parent2)
+                rounds += 1
+                if rounds > 1000:
+                    rounds = 0
+                    break
+            timer += 1
+            if timer > 100:
+                raise ValueError(f"Crossover failed. No {random_node1.node_type} found in parent1.")
+
+        # print(random_node1.node_type)
+        node1_index = random_node1.parent.children.index(random_node1)
+        node2_index = random_node2.parent.children.index(random_node2)
+
+        random_node1.parent.children[node1_index] = random_node2
+        random_node2.parent.children[node2_index] = random_node1
+
+        random_node1.parent = random_node2.parent
+        random_node2.parent = random_node1.parent
 
 
-        children1 = parent1_random_node.parent.children
-        index1 = children1.index(parent1_random_node)
-
-        children2 = parent2_random_node.parent.children
-        index2 = children2.index(parent2_random_node)
-
-        children1[index1] = parent2_random_node
-        children2[index2] = parent1_random_node
 
 
-        return parent1
 
 
     # def tree_traversal(self, node: Node):
@@ -97,7 +111,19 @@ class EvolutionOperations:
 
 if __name__ == "__main__":
     evolutionOperation = EvolutionOperations()
-    root = generateTree(5, 5)
+
+    root = generateTree(3, 5)
+    root2 = generateTree(3, 5)
+
+        # mutation
+    # root.printTree()
+    # evolutionOperation.mutation(root)
+    # root.printTree()
+
+        # crossover
     root.printTree()
-    evolutionOperation.mutation(root)
+    root2.printTree()
+    evolutionOperation.crossover(root, root2)
+    print()
     root.printTree()
+    root2.printTree()

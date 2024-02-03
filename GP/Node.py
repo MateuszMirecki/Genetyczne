@@ -2,7 +2,7 @@ from typing import Any
 from GP.NodeType import NodeType
 import random
 
-width = 10
+
 MAX_FUNCTION_DIMENSION = 2
 MAX_BOOL_VAR_DIMENSION = 2
 
@@ -25,13 +25,7 @@ class Node:
         self.max_width = max_width
 
     def __str__(self):
-        if self.isterminal:
-            str = self.value
-        else:
-            str = ""
-        for child in self.children:
-            str += child.__str__()
-        return str
+        return f"Node type: {self.node_type}, Value: {self.value}, Terminal: {self.isterminal}, Depth: {self.depth}"
 
     def printTree(self) -> str:
         print(self._buildTreeString())
@@ -295,18 +289,14 @@ class Node:
                     expression.children.remove(self.parent)
 
             case NodeType.read_var:
-                if self.depth > 0:
-                    self.grow_read_var()
-                else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                self.grow_read_var()
+
 
             case NodeType.assignment:
                 if self.depth > 0:
                     self.grow_assignment()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    self.children.append(Node(NodeType.NUM_VAR, value="X" + str(random.randint(1, MAX_FUNCTION_DIMENSION)), parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
 
             case NodeType.bool_value:
                 if self.depth > 1:
@@ -338,7 +328,7 @@ def generateTree(depth, width):
 
 
 if __name__ == "__main__":
-    root = generateTree(3,3)
+    root = generateTree(5,3)
     root.printTree()
 
     # arr = [1, 2, 3, 4, 5]

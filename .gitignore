@@ -2,13 +2,14 @@
 ### Example user template
 
 # IntelliJ project files
-.idea
+.idea/
 *.iml
 out
 gen
+__pycache__
 ### Python template
 # Byte-compiled / optimized / DLL files
-__pycache__/
+GP/__pycache__/
 *.py[cod]
 *$py.class
 

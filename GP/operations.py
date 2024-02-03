@@ -2,40 +2,28 @@ import random
 import copy
 
 from Node import Node
+from Node import generateTree
 from NodeType import NodeType
 
 class EvolutionOperations:
 
 
     def mutation(self, root: Node):
-        types_for_mutation = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val]
+        types_for_mutation = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val,
+                              NodeType.read_var, NodeType.assignment]
 
-        tree_height = self.tree_height(root)
+        random_node = self.getRandomNode(root)
+        while(not random_node.node_type in types_for_mutation):
+            random_node = self.getRandomNode(root)
+        # print(random_node)
 
-        random_node_number = random.randint(1,tree_height)
+        switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
+                           depth=random_node.depth, max_width=random_node.max_width)
+        switch_node.grow()
+        # print(switch_node)
 
-        random_node = self.getRandomNode(root, random_node_number)
-        counter = 0
-        while(random_node.node_type not in types_for_mutation):
-            counter += 1
-            if counter > 100:
-                print("Mutation failed no matching node types found")
-                return None
-            if random_node.parent == None:
-                random_node_number = random.randint(1, tree_height)
-                random_node = self.getRandomNode(root, random_node_number)
-            else:
-                random_node = random_node.parent
-
-        new_bool_value = Node(node_type=NodeType.bool_value)
-        new_bool_value.grow()
-
-        # new_bool_value.printTree()
-        # print()
-
-        random_node.children[2] = new_bool_value
-
-        return root
+        random_node_children_array_index = random_node.parent.children.index(random_node)
+        random_node.parent.children[random_node_children_array_index] = switch_node
 
     ####
     #TRUNIEJ#
@@ -75,108 +63,41 @@ class EvolutionOperations:
         return parent1
 
 
-
-    def tree_traversal(self, node: Node):
-        if len(node.children) == 0:
-            return 1
-        for child in self.children:
-            return 1 + self.tree_traversal(child)
+    # def tree_traversal(self, node: Node):
+    #     if len(node.children) == 0:
+    #         return 1
+    #     for child in self.children:
+    #         return 1 + self.tree_traversal(child)
 
     def tree_height(self, root):
-        number_of_children = len(root.children)
-
-        if number_of_children == 0:
+        if len(root.children) == 0:
             return 0
 
-        child_1_height = 0
-        child_2_height = 0
-        child_3_height = 0
-        child_4_height = 0
-        child_5_height = 0
-        child_6_height = 0
-        child_7_height = 0
+        # Initialize maximum height to 0
+        max_height = 0
 
-        match number_of_children:
-            case 1:
-                child_1_height = self.tree_height(root.children[0])
-            case 2:
-                child_1_height = self.tree_height(root.children[0])
-                child_2_height = self.tree_height(root.children[1])
-            case 3:
-                child_1_height = self.tree_height( root.children[0])
-                child_2_height = self.tree_height( root.children[1])
-                child_3_height = self.tree_height( root.children[2])
-            case 4:
-                child_1_height = self.tree_height( root.children[0])
-                child_2_height = self.tree_height( root.children[1])
-                child_3_height = self.tree_height( root.children[2])
-                child_4_height = self.tree_height( root.children[3])
-            case 5:
-                child_1_height = self.tree_height( root.children[0])
-                child_2_height = self.tree_height( root.children[1])
-                child_3_height = self.tree_height( root.children[2])
-                child_4_height = self.tree_height( root.children[3])
-                child_5_height = self.tree_height( root.children[4])
-            case 6:
-                child_1_height = self.tree_height( root.children[0])
-                child_2_height = self.tree_height( root.children[1])
-                child_3_height = self.tree_height( root.children[2])
-                child_4_height = self.tree_height( root.children[3])
-                child_5_height = self.tree_height( root.children[4])
-                child_6_height = self.tree_height( root.children[5])
-            case 7:
-                child_1_height = self.tree_height( root.children[0])
-                child_2_height = self.tree_height( root.children[1])
-                child_3_height = self.tree_height( root.children[2])
-                child_4_height = self.tree_height( root.children[3])
-                child_5_height = self.tree_height( root.children[4])
-                child_6_height = self.tree_height( root.children[5])
-                child_7_height = self.tree_height( root.children[6])
+        # Iterate over all children
+        for child in root.children:
+            # Calculate the height of the current child
+            child_height = self.tree_height(child)
+            # Update maximum height if current child's height is greater
+            max_height = max(max_height, child_height)
 
+        # Return maximum height of all children plus 1
+        return max_height + 1
 
-        return max(child_1_height, child_2_height, child_3_height, child_4_height, child_5_height, child_6_height, child_7_height) + 1
-
-    def getRandomNode(self, node, randomNumber):
-        # print(f"Getting random node... Current node: {node}, Random number: {randomNumber}")
-        if randomNumber == 0 or node.value == None:
-            return node
-        randomChild = random.choice(node.children)
-        # print("getRandomNode: getting randomChild", randomChild)
-        return randomChild
-        # return self.getRandomNode(randomChild, randomNumber-1)
-
-    def getRandomNodeFasade(self, root):
-        # print(f"Entering getRandomNodeFasade... Root: {root}")
-        RandomNumber = random.randint(1, self.tree_height(root))
-        # print(f"Random number chosen: {RandomNumber}")
-        random_node = self.getRandomNode(root, RandomNumber)
-        # print(f"Random node chosen: {random_node}")
-
-        if random_node.value == None:
-            return random_node
-        else:
-            return random_node.parent
-
+    def getRandomNode(self, root: Node)->Node:
+        random_node_number = random.randint(1, self.tree_height(root)-1)
+        # print(5 - random_node_number)
+        while random_node_number > 0 and len(root.children) > 0:
+            random_node_number -= 1
+            root = random.choice(root.children)
+        return root
 
 
 if __name__ == "__main__":
-    evolutionOperations = EvolutionOperations()
-    root = Node(NodeType.program)
-    root2 = Node(NodeType.program)
-    root.grow()
-    root2.grow()
-
+    evolutionOperation = EvolutionOperations()
+    root = generateTree(5, 5)
     root.printTree()
-    print('\n')
-    root2.printTree()
-    print('\n')
-
-    # evolutionOperations.mutation(root)
-    # root.printTree()
-
-    evolutionOperations.crossover(root, root2)
+    evolutionOperation.mutation(root)
     root.printTree()
-    print('\n')
-
-    root2.printTree()
-    print('\n')

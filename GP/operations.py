@@ -60,7 +60,7 @@ class EvolutionOperations:
                     break
             timer += 1
             if timer > 100:
-                raise ValueError(f"Crossover failed. No {random_node1.node_type} found in parent1.")
+                raise ValueError("Crossover failed. No matching nodes found.")
 
         # print(random_node1.node_type)
         node1_index = random_node1.parent.children.index(random_node1)

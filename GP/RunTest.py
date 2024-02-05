@@ -1,8 +1,8 @@
-from Node import generateTree
 import sys
 import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
+from GP.Node import generateTree
 from Interpreter.run_interpreter import Interpreter
 from fitness_functions import get_fit_func
 from read_data import read_data
@@ -11,7 +11,7 @@ from operations import EvolutionOperations
 
 
 #Populacja
-population = [generateTree() for i in range(5)] #Zwraca losową populację
+population = [generateTree(9,15) for i in range(5)] #Zwraca losową populację
 popolation_len = len(population)
 
 for pop in range(popolation_len):

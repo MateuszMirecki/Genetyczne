@@ -6,7 +6,7 @@ else:
 
 class ExprVisitor(ParseTreeVisitor):
 
-    def __init__(self, input_values=[4,5,6], instruction_limit=10000, output_limit=100):
+    def __init__(self, input_values=[4,5,6], instruction_limit=100000, output_limit=100, max_loop_iterations=1000):
         self.variables = {}
         self.output = []
         self.output_limit = output_limit
@@ -14,7 +14,8 @@ class ExprVisitor(ParseTreeVisitor):
         self.input_index = -1
         self.instruction_limit = instruction_limit
         self.counter = 0
-
+        self.loop_iterations = 0
+        self.max_loop_iterations = max_loop_iterations
         
     def visitProgram(self, ctx:ExprParser.ProgramContext):
         with open('output.txt', 'w') as f:
@@ -32,7 +33,7 @@ class ExprVisitor(ParseTreeVisitor):
         if ctx.getText() not in ['{', '}']:
             self.counter += 1
             if self.counter > self.instruction_limit:
-                print ("Instruction limit reached.")
+                # print ("Instruction limit reached.")
                 return 0
 
         result = self.visitChildren(ctx)
@@ -47,14 +48,24 @@ class ExprVisitor(ParseTreeVisitor):
 
     def visitWhile_loop(self, ctx:ExprParser.While_loopContext):
         self.counter += 1
-        
-
-        while True: 
+        if self.loop_iterations > self.max_loop_iterations:
+            print ("Max loop iterations reached.")
+            return
+        # print(self.loop_iterations)
+        # print(self.counter)
+        # print(ctx.getText())
+        while True:
             condition = self.visitBool_value(ctx.bool_value())
+            # print(condition)
             if self.counter > self.instruction_limit:
                 print ("Instruction limit reached.")
                 return 0
             if condition:
+                if self.loop_iterations > self.max_loop_iterations:
+                    print ("Max loop iterations reached.")
+                    return
+                self.loop_iterations += 1
+
                 self.visitBlock_statement(ctx.block_statement())
             else:
                 break
@@ -65,11 +76,13 @@ class ExprVisitor(ParseTreeVisitor):
 
     def visitBlock_statement(self, ctx):
         self.counter += 1
-
-        # Skip the first and last child as they are LEFTBRACK and RIGHTBRACK
-        for i in range(1, ctx.getChildCount() - 1):
-            child = ctx.getChild(i)
-            self.visit(child)
+        if ctx:
+            # Skip the first and last child as they are LEFTBRACK and RIGHTBRACK
+            for i in range(1, ctx.getChildCount() - 1):
+                
+                child = ctx.getChild(i)
+                
+                self.visit(child)
 
 
 
@@ -121,14 +134,9 @@ class ExprVisitor(ParseTreeVisitor):
 
         variable_name = ctx.getChild(0).getText()
         value_expression = ctx.getChild(2)
+        if value_expression is None:
+            return 
 
-        if value_expression.getText() in ['True', 'False']:
-            bool_value = value_expression.getText() == 'True'
-
-            # Assign 1 for True and 0 for False to both boolean and numeric variables
-            assigned_value = 1 if bool_value else 0
-            self.variables[variable_name] = assigned_value
-            return assigned_value
 
         # Handling assignment to boolean variables
         elif variable_name.startswith('B'):
@@ -143,6 +151,14 @@ class ExprVisitor(ParseTreeVisitor):
             self.variables[variable_name] = numeric_value
             return numeric_value
         
+        if value_expression.getText() in ['True', 'False']:
+            bool_value = value_expression.getText() == 'True'
+
+            # Assign 1 for True and 0 for False to both boolean and numeric variables
+            assigned_value = 1 if bool_value else 0
+            self.variables[variable_name] = assigned_value
+            return assigned_value
+
         else:
             raise Exception("Unrecognized assignment type")
 

@@ -1,1 +1,1 @@
-X1=6X2=1while(X1>0){X2=X2*X1X1=X1-1}write(X2)
+X1=16X2=1while(X1>0){X2=X2*X1X1=X1-1}

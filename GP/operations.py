@@ -8,7 +8,9 @@ from NodeType import NodeType
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
 ROUNDS_PER_GENERATION = 100
+GENERATION_NUMBER = 100
 TOURNAMENT_SIZE = 3
+
 
 class EvolutionOperations:
 
@@ -17,16 +19,22 @@ class EvolutionOperations:
         types_for_mutation = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val,
                               NodeType.read_var, NodeType.assignment]
 
-        program = self.tournament(population, TOURNAMENT_SIZE).program
+        new_program_class = self.tournament(population, TOURNAMENT_SIZE)
+        program = new_program_class.program
         program = copy.deepcopy(program)
 
-        # program.printTree()
+        # test mutation
+        program.printTree()
+        print()
 
         random_node = self.getRandomNode(program)
 
         while(not random_node.node_type in types_for_mutation):
             random_node = self.getRandomNode(program)
-        # print(random_node)
+
+            # mutation test
+        print(random_node)
+        print()
 
         switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
                            depth=random_node.depth, max_width=random_node.max_width)
@@ -38,22 +46,31 @@ class EvolutionOperations:
 
 
         # program.printTree()
-
-        return program
+        new_program_class.program = program
+        new_program_class.correctFitness()
+        return new_program_class
 
 
     def crossover(self, population):
         types_for_crossover = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val,
-                              NodeType.read_var, NodeType.assignment, NodeType.bool_value, NodeType.numeric_value]
+                               NodeType.read_var, NodeType.assignment, NodeType.bool_value, NodeType.numeric_value]
 
-        parent1 = self.tournament(population, TOURNAMENT_SIZE).program
-        parent2 = self.tournament(population, TOURNAMENT_SIZE).program
+        new_program_class_1 = self.tournament(population, TOURNAMENT_SIZE)
+        new_program_class_2 = self.tournament(population, TOURNAMENT_SIZE)
+        while new_program_class_1 is new_program_class_2:
+            new_program_class_2 = self.tournament(population, TOURNAMENT_SIZE)
+
+        new_program_class_1 = copy.deepcopy(new_program_class_1)
+        new_program_class_2 = copy.deepcopy(new_program_class_2)
+
+        parent1 = new_program_class_1.program
+        parent2 = new_program_class_2.program
 
         # parent1.printTree()
         # parent2.printTree()
+        # print()
 
-        parent1 = copy.deepcopy(parent1)
-        parent2 = copy.deepcopy(parent2)
+
 
         random_node1 = self.getRandomNode(parent1)
         random_node2 = self.getRandomNode(parent2)
@@ -77,6 +94,7 @@ class EvolutionOperations:
 
 
         # print(random_node1.node_type)
+        # print()
 
         node1_index = random_node1.parent.children.index(random_node1)
         node2_index = random_node2.parent.children.index(random_node2)
@@ -87,7 +105,12 @@ class EvolutionOperations:
         random_node1.parent = random_node2.parent
         random_node2.parent = random_node1.parent
 
-        return parent1, parent2
+        new_program_class_1.program = parent1
+        new_program_class_2.program = parent2
+        new_program_class_1.correctFitness()
+        new_program_class_2.correctFitness()
+
+        return new_program_class_1, new_program_class_2
 
 
 
@@ -127,10 +150,10 @@ class Program:
     def __init__(self, fitness_function, depth: int, max_width: int):
         self.fitness_function = fitness_function
         self.program = generateTree(depth, max_width)
-        self.fitness = fitness_function()
+        self.fitness = fitness_function #TODO: change this to actual fitness function
 
     def correctFitness(self):
-        self.fitness = self.fitness_function()
+        self.fitness = self.fitness_function #TODO: change this to actual fitness function
 
 class Run:
     def __init__(self, population_size: int, fitness_function, depth: int, max_width: int):
@@ -145,7 +168,7 @@ class Run:
         population.remove(worst_competitor)
 
 
-    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int):
+    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int)->list[Program]:
         population = []
         for i in range(population_size):
             population.append(Program(fitness_function, depth, max_width))
@@ -155,16 +178,20 @@ class Run:
         return min(population, key=lambda x: x.fitness)
 
     def run(self):
-        for _ in range(ROUNDS_PER_GENERATION):
-            if random.random() < CROSSOVER_PROBABILITY:
-                parent1, parent2 = self.evolutionOperations.crossover(self.population)
-                self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                self.population.append(parent1)
-                self.population.append(parent2)
-            else:
-                self.population.append(self.evolutionOperations.mutation(self.population))
-            self.population = self.negative_tournament(self.population, TOURNAMENT_SIZE)
+        print(self.population,1)
+        for _ in range(GENERATION_NUMBER):
+            for _ in range(ROUNDS_PER_GENERATION):
+                if random.random() < CROSSOVER_PROBABILITY:
+                    print(self.population,2)
+                    parent1, parent2 = self.evolutionOperations.crossover(self.population)
+                    self.negative_tournament(self.population, TOURNAMENT_SIZE)
+                    self.negative_tournament(self.population, TOURNAMENT_SIZE)
+                    self.population.append(parent1)
+                    self.population.append(parent2)
+                # else:
+                #     self.population.append(self.evolutionOperations.mutation(self.population))
+                #     self.population = self.negative_tournament(self.population, TOURNAMENT_SIZE)
+
 
 
 
@@ -174,5 +201,19 @@ class Run:
 
 if __name__ == "__main__":
     evolution = EvolutionOperations()
+
+        # crossover test
+    # run = Run(10, 1, 3, 5)
+    # program_class1, program_class_2 =  evolution.crossover(run.population)
+    # program_class1.program.printTree()
+    # program_class_2.program.printTree()
+
+        # mutation test
+    # run = Run(10, 1, 3, 5)
+    # program_class1 = evolution.mutation(run.population)
+    # program_class1.program.printTree()
+
+        # Run test
     run = Run(10, 1, 3, 5)
-    evolution.mutation(run.population)
+    run.run()
+

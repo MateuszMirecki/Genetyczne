@@ -9,7 +9,7 @@ CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
 ROUNDS_PER_GENERATION = 100
 GENERATION_NUMBER = 100
-TOURNAMENT_SIZE = 3
+TOURNAMENT_SIZE = 2
 
 
 class EvolutionOperations:
@@ -57,6 +57,7 @@ class EvolutionOperations:
 
         new_program_class_1 = self.tournament(population, TOURNAMENT_SIZE)
         new_program_class_2 = self.tournament(population, TOURNAMENT_SIZE)
+
         while new_program_class_1 is new_program_class_2:
             new_program_class_2 = self.tournament(population, TOURNAMENT_SIZE)
 
@@ -66,49 +67,65 @@ class EvolutionOperations:
         parent1 = new_program_class_1.program
         parent2 = new_program_class_2.program
 
-        # parent1.printTree()
-        # parent2.printTree()
-        # print()
-
-
+        parent1.printTree()
+        parent2.printTree()
+        print()
 
         random_node1 = self.getRandomNode(parent1)
         random_node2 = self.getRandomNode(parent2)
-        timer = 0
 
-        while random_node1.node_type != random_node2.node_type and random_node1.node_type not in types_for_crossover and random_node2 not in types_for_crossover:
+        timer1 = 0
+        timer2 = 0
+        isCompatible = False
+
+
+        firstBool = random_node1.node_type not in types_for_crossover
+        secondBool = random_node2.node_type not in types_for_crossover
+        thirdBool = random_node1.node_type != random_node2.node_type
+
+
+        while (firstBool or secondBool) or thirdBool:
             random_node1 = self.getRandomNode(parent1)
-            while (not random_node1.node_type in types_for_crossover):
-                random_node1 = self.getRandomNode(parent1)
-            random_node2 = self.getRandomNode(parent2)
-            rounds = 0
-            while (random_node1.node_type != random_node2.node_type):
+
+            while (firstBool or secondBool) or thirdBool:
                 random_node2 = self.getRandomNode(parent2)
-                rounds += 1
-                if rounds > 1000:
-                    rounds = 0
+                timer1 += 1
+
+                if random_node1.node_type == random_node2.node_type and random_node1.node_type in types_for_crossover and random_node2.node_type in types_for_crossover:
+                    isCompatible = True
                     break
-            timer += 1
-            if timer > 100:
-                raise ValueError("Crossover failed. No matching nodes found.")
+
+                if timer1 > 100:
+                    timer1 = 0
+                    break
+
+            if isCompatible:
+
+                break
+
+            timer2 += 1
+            if timer2 > 100:
+                print("error")
+                raise RuntimeError("No compatible nodes for crossover")
 
 
-        # print(random_node1.node_type)
-        # print()
+        index1 = random_node1.parent.children.index(random_node1)
+        index2 = random_node2.parent.children.index(random_node2)
 
-        node1_index = random_node1.parent.children.index(random_node1)
-        node2_index = random_node2.parent.children.index(random_node2)
+        node1 = copy.deepcopy(random_node1)
+        node2 = copy.deepcopy(random_node2)
 
-        random_node1.parent.children[node1_index] = random_node2
-        random_node2.parent.children[node2_index] = random_node1
 
-        random_node1.parent = random_node2.parent
-        random_node2.parent = random_node1.parent
 
-        new_program_class_1.program = parent1
-        new_program_class_2.program = parent2
-        new_program_class_1.correctFitness()
-        new_program_class_2.correctFitness()
+        random_node1.parent.children[index1] = node2
+        random_node2.parent.children[index2] = node1
+
+        print(random_node1.node_type,'---------', random_node2.node_type,'\n')
+        parent1.printTree()
+        parent2.printTree()
+        print('-----------------------------------------')
+
+
 
         return new_program_class_1, new_program_class_2
 
@@ -178,16 +195,20 @@ class Run:
         return min(population, key=lambda x: x.fitness)
 
     def run(self):
-        print(self.population,1)
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):
                 if random.random() < CROSSOVER_PROBABILITY:
-                    print(self.population,2)
-                    parent1, parent2 = self.evolutionOperations.crossover(self.population)
-                    self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                    self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                    self.population.append(parent1)
-                    self.population.append(parent2)
+                    program1, program2 = self.evolutionOperations.crossover(self.population)
+
+                    # self.negative_tournament(self.population, TOURNAMENT_SIZE)
+                    # self.negative_tournament(self.population, TOURNAMENT_SIZE)
+                    #
+                    # self.population.append(program1)
+                    # self.population.append(program2)
+
+
+                    # self.population.append(program1)
+                    # self.population.append(program2)
                 # else:
                 #     self.population.append(self.evolutionOperations.mutation(self.population))
                 #     self.population = self.negative_tournament(self.population, TOURNAMENT_SIZE)
@@ -214,6 +235,8 @@ if __name__ == "__main__":
     # program_class1.program.printTree()
 
         # Run test
-    run = Run(10, 1, 3, 5)
+    run = Run(3, 1, 3, 5)
     run.run()
+
+
 

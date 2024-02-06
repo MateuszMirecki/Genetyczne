@@ -1,4 +1,4 @@
 Program passed
-X3 = X3 - X3 if ( X4 - X5 == 45 ) { while ( False ) { read ( X2 ) } } if ( ! False && True ) { while ( False ) { } } while ( False ) { while ( False ) { } while ( False ) { } if ( False ) { } read ( X1 ) while ( False ) { read ( B3 ) } if ( False ) { } } write ( ( 754 >= 615 ) ) 
-output [1]
+while ( ! False ) { X5 = 789 read ( X2 ) B3 = False B2 = False } write ( X5 + X4 ) if ( ( False ) ) { while ( False ) { } } write ( False ) 
+output [789, 0]
 Done

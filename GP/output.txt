@@ -1,1 +1,1 @@
-read(X1)X5=X3while(X3+X2<=X5+X3){while(False){}}
+B1=B1if(B2){read(X4)}while(!False){while(False){}B1=Falsewrite(False)}if((False)){X5=462}read(X3)

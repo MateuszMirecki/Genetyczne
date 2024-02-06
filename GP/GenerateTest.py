@@ -6,8 +6,28 @@ from GP.Node import generateTree
 from Interpreter.run_interpreter import Interpreter
 from fitness_functions import get_fit_func
 from read_data import read_data
-
 from operations import EvolutionOperations
+
+
+
+
+def select_best(self):
+    best_idx = max(self.fitnesses, key=lambda key: self.fitnesses[key])
+    best_fitness = self.fitnesses[best_idx]
+    if best_fitness > self.best_fitness:
+        self.best_fitness = best_fitness
+        self.best_idx = best_idx
+        self.best = self.population[best_idx]
+    print(f"Best fitness: {self.best_fitness}")
+    return best_idx
+
+
+
+
+
+
+
+
 
 
 #Populacja

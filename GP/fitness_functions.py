@@ -67,11 +67,11 @@ def fitness_1_2_A(out, excpected_out, read_vars=0):
     fit = 0
     if read_vars < 2:
         fit += -10000  
-    if len(out) == 0:
+    elif len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
@@ -85,9 +85,9 @@ def fitness_1_2_B(out, excpected_out, read_vars=0):
         fit += -10000  
     if len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
@@ -98,11 +98,11 @@ def fitness_1_2_C(out, excpected_out, read_vars=0):
     fit = 0
     if read_vars < 2:
         fit += -10000  
-    if len(out) == 0:
+    elif len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
@@ -115,9 +115,9 @@ def fitness_1_2_D(out, excpected_out, read_vars=0):
         fit += -10000  
     if len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
@@ -130,7 +130,7 @@ def fitness_1_2_E(out, excpected_out, read_vars=0):
         fit += -10000  
     if len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
     if out[0] == excpected_out:
         return 0
@@ -145,39 +145,39 @@ def fitness_1_3_A(out, excpected_out, read_vars=0):
         fit += -10000  
     if len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
 
     return fit
 
-def fitness_1_3_B(input_data, output):
+def fitness_1_3_B(out, excpected_out, read_vars=0):
     fit = 0
     if read_vars < 2:
         fit += -10000  
     if len(out) == 0:
         fit += -1000
-    if len(out) > 1:
+    elif len(out) > 1:
         fit += -10000
-    if out[0] == excpected_out:
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000
 
     return fit
 
-def fitness_1_4_A(input_data, output):
+def fitness_1_4_A(out, excpected_out, read_vars=0):
     fit = 0
     if read_vars < 10:
         fit += -1000  
     if len(out) == 0:
         fit += -10
-    if len(out) > 1:
-        fit += -1000000
-    if out[0] == excpected_out:
+    elif len(out) > 1:
+        fit += -100000
+    elif out[0] == excpected_out:
         return 0
     else:
         fit += -10000

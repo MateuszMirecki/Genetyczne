@@ -7,8 +7,8 @@ from NodeType import NodeType
 
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
-ROUNDS_PER_GENERATION = 100
-GENERATION_NUMBER = 100
+ROUNDS_PER_GENERATION = 10
+GENERATION_NUMBER = 10
 TOURNAMENT_SIZE = 2
 
 
@@ -64,12 +64,14 @@ class EvolutionOperations:
         new_program_class_1 = copy.deepcopy(new_program_class_1)
         new_program_class_2 = copy.deepcopy(new_program_class_2)
 
+
         parent1 = new_program_class_1.program
         parent2 = new_program_class_2.program
 
-        parent1.printTree()
-        parent2.printTree()
-        print()
+            # crossover test
+        # parent1.printTree()
+        # parent2.printTree()
+        # print()
 
         random_node1 = self.getRandomNode(parent1)
         random_node2 = self.getRandomNode(parent2)
@@ -95,7 +97,7 @@ class EvolutionOperations:
                     isCompatible = True
                     break
 
-                if timer1 > 100:
+                if timer1 > 1000:
                     timer1 = 0
                     break
 
@@ -104,26 +106,32 @@ class EvolutionOperations:
                 break
 
             timer2 += 1
-            if timer2 > 100:
+            if timer2 > 1000:
                 print("error")
                 raise RuntimeError("No compatible nodes for crossover")
 
 
-        index1 = random_node1.parent.children.index(random_node1)
-        index2 = random_node2.parent.children.index(random_node2)
+        random_node1_copy = copy.deepcopy(random_node1)
+        random_node2_copy = copy.deepcopy(random_node2)
 
-        node1 = copy.deepcopy(random_node1)
-        node2 = copy.deepcopy(random_node2)
+        # I
+        random_node1_copy.parent = random_node2.parent
+        random_node2_copy.parent = random_node1.parent
+
+        # II
+
+        index_node_1 = random_node1.parent.children.index(random_node1)
+        index_node_2 = random_node2.parent.children.index(random_node2)
+
+        random_node1.parent.children[index_node_1] = random_node2_copy
+        random_node2.parent.children[index_node_2] = random_node1_copy
 
 
+        # print(random_node1.node_type,'---------', random_node2.node_type,'\n')
+        # parent1.printTree()
+        # parent2.printTree()
+        # print('-----------------------------------------')
 
-        random_node1.parent.children[index1] = node2
-        random_node2.parent.children[index2] = node1
-
-        print(random_node1.node_type,'---------', random_node2.node_type,'\n')
-        parent1.printTree()
-        parent2.printTree()
-        print('-----------------------------------------')
 
 
 
@@ -157,7 +165,11 @@ class EvolutionOperations:
         return root
 
     def tournament(self, population, tournament_size: int):
-        competitors = random.sample(population, tournament_size)
+        competitors = random.sample(population, 2)
+        print(len(competitors))
+        for competitor in competitors:
+            competitor.program.printTree()
+        print('------------------')
         return max(competitors, key=lambda x: x.fitness)
 
 
@@ -179,10 +191,11 @@ class Run:
         self.population = self.get_population(fitness_function, depth, max_width, population_size)
 
 
-    def negative_tournament(self, population, tournament_size: int):
-        competitors = random.sample(population, tournament_size)
+    def negative_tournament(self, tournament_size: int):
+        competitors = random.sample(self.population, tournament_size)
         worst_competitor = min(competitors, key=lambda x: x.fitness)
-        population.remove(worst_competitor)
+        self.population.remove(worst_competitor)
+
 
 
     def get_population(self, fitness_function, depth: int, max_width: int, population_size: int)->list[Program]:
@@ -200,11 +213,11 @@ class Run:
                 if random.random() < CROSSOVER_PROBABILITY:
                     program1, program2 = self.evolutionOperations.crossover(self.population)
 
-                    # self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                    # self.negative_tournament(self.population, TOURNAMENT_SIZE)
-                    #
-                    # self.population.append(program1)
-                    # self.population.append(program2)
+                    self.negative_tournament(TOURNAMENT_SIZE)
+                    self.negative_tournament(TOURNAMENT_SIZE)
+
+                    self.population.append(program1)
+                    self.population.append(program2)
 
 
                     # self.population.append(program1)
@@ -235,7 +248,7 @@ if __name__ == "__main__":
     # program_class1.program.printTree()
 
         # Run test
-    run = Run(3, 1, 3, 5)
+    run = Run(1000, 1, 10, 5)
     run.run()
 
 

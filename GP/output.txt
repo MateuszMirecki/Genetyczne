@@ -1,1 +1,1 @@
-B1=B1if(B2){read(X4)}while(!False){while(False){}B1=Falsewrite(False)}if((False)){X5=462}read(X3)
+write(B3)while(False||False){if(False){}read(X4)B1=False}X4=X3+X4read(X1)X5=X4

@@ -176,13 +176,14 @@ class EvolutionOperations:
 
 
 class Program:
-    def __init__(self, fitness_function, depth: int, max_width: int):
+    def __init__(self, fitness_function, depth: int, max_width: int, fittness_function_name: str) -> None:
         self.fitness_function = fitness_function
         self.program = generateTree(depth, max_width)
-        self.fitness = fitness_function #TODO: change this to actual fitness function
+        self.fitness = fitness_function(self.program, fittness_function_name)
+        self.fittness_function_name = fittness_function_name
 
     def correctFitness(self):
-        self.fitness = self.fitness_function #TODO: change this to actual fitness function
+        self.fitness = self.fitness_function(self.program, self.fittness_function_name)
 
 class Run:
     def __init__(self, population_size: int, fitness_function, depth: int, max_width: int):

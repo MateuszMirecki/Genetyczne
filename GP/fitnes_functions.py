@@ -18,6 +18,8 @@ def calculate_fitness_function(root: Node, function_name)->int:
 
     return new_fittness
 
+
+
 if __name__ == "__main__":
     # from collections import defaultdict
     # fitness_occurrences = defaultdict(int)

@@ -5,6 +5,8 @@ from Node import Node
 from Node import generateTree
 from NodeType import NodeType
 
+from fitnes_functions import problem_1_1_Afitness_function
+
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
 ROUNDS_PER_GENERATION = 10

@@ -1,1 +1,1 @@
-if(605!=416){if(False){}}read(X5)read(X5)
+if(!False){read(X1)}while(False||False){B1=Falseread(X4)}if(!False){write(False)}write(False||False)X4=X4

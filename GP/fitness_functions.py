@@ -1,11 +1,29 @@
+def fitness_for_index(out, excpected_out, read_vars=0):
+    fit = 0
+    if read_vars < 3:
+        fit += -1000
+    if len(out) < len(excpected_out):
+        fit += -100
+    elif len(out) > len(excpected_out):
+        fit += -100000
+    elif len(out) == len(excpected_out):
+        for i in range(len(excpected_out)):
+            if out[i] != excpected_out[i]:
+                fit += -100000
+        if fit == 0:
+            return 0
+    return fit
+                
+
 def fitness_1_1_A(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
         return -1234
     elif 1 in out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        for i in range(len(excpected_out)):
+            fit += -50
     return fit
 
 def fitness_1_1_B(out, excpected_out, read_vars=0):
@@ -200,7 +218,8 @@ fittness_functions = {
     "1_2_E": fitness_1_2_E,
     "1_3_A": fitness_1_3_A,
     "1_3_B": fitness_1_3_B,
-    "1_4_A": fitness_1_4_A
+    "1_4_A": fitness_1_4_A,
+    "for_index": fitness_for_index
 
 }
 

@@ -19,5 +19,17 @@ def calculate_fitness_function(root: Node, function_name)->int:
     return new_fittness
 
 if __name__ == "__main__":
+    # from collections import defaultdict
+    # fitness_occurrences = defaultdict(int)
+    # for i in range(400):
+    #     root = generateTree(6,26)
+    #     fit = calculate_fitness_function(root, "for_index")
+    #     fitness_occurrences[fit] += 1
+
+    # for fit, count in fitness_occurrences.items():
+    #     print(f"Fitness {fit}: {count} occurrences")
+
     root = generateTree(5,5)
-    print(calculate_fitness_function(root, "1_1_A"))
+    root.printTree()
+    fit = calculate_fitness_function(root, "1_1_A")
+    print(f"fittness: {fit}")

@@ -3,6 +3,7 @@ from GP.NodeType import NodeType
 import random
 
 
+
 MAX_FUNCTION_DIMENSION = 5
 MAX_BOOL_VAR_DIMENSION = 3
 

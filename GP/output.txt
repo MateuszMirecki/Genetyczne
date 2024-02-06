@@ -1,1 +1,0 @@
-if(!False){read(X1)}while(False||False){B1=Falseread(X4)}if(!False){write(False)}write(False||False)X4=X4

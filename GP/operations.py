@@ -5,7 +5,7 @@ from Node import Node
 from Node import generateTree
 from NodeType import NodeType
 
-from fitnes_functions import problem_1_1_Afitness_function
+import GP.fitnes_functions
 
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
@@ -178,19 +178,20 @@ class EvolutionOperations:
 
 
 class Program:
-    def __init__(self, fitness_function, depth: int, max_width: int):
+    def __init__(self, fitness_function, depth: int, max_width: int, test_function_name: str) -> None:
         self.fitness_function = fitness_function
         self.program = generateTree(depth, max_width)
-        self.fitness = fitness_function #TODO: change this to actual fitness function
+        self.fitness = fitness_function(self.program, test_function_name)
 
     def correctFitness(self):
         self.fitness = self.fitness_function #TODO: change this to actual fitness function
 
 class Run:
-    def __init__(self, population_size: int, fitness_function, depth: int, max_width: int):
+    def __init__(self, population_size: int, fitness_function, depth: int, max_width: int, test_function_name: str) -> None :
         self.fitness_function = fitness_function
         self.evolutionOperations = EvolutionOperations()
-        self.population = self.get_population(fitness_function, depth, max_width, population_size)
+        self.population = self.get_population(fitness_function, depth, max_width, population_size, test_function_name)
+        self.test_function_name = test_function_name
 
 
     def negative_tournament(self, tournament_size: int):
@@ -200,18 +201,32 @@ class Run:
 
 
 
-    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int)->list[Program]:
+    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int, test_function_name:str)->list[Program]:
         population = []
         for i in range(population_size):
-            population.append(Program(fitness_function, depth, max_width))
+            population.append(Program(fitness_function, depth, max_width, test_function_name))
         return population
 
     def get_worst_individual(self, population):
         return min(population, key=lambda x: x.fitness)
 
+    def check_if_population_is_correct(self, population):
+        fitness_list = map(lambda x: x.fitness, population)
+        if 0 in fitness_list:
+            fitness_list = list(fitness_list)
+            index_of_correct_program = fitness_list.index(0)
+            return population[index_of_correct_program]
+        return False
+
     def run(self):
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):
+                if self.check_if_population_is_correct(self.population):
+                    root = self.check_if_population_is_correct(self.population)
+                    print('Correct program found')
+                    root.program.printTree()
+                    return
+
                 if random.random() < CROSSOVER_PROBABILITY:
                     program1, program2 = self.evolutionOperations.crossover(self.population)
 
@@ -250,8 +265,10 @@ if __name__ == "__main__":
     # program_class1.program.printTree()
 
         # Run test
-    run = Run(1000, 1, 10, 5)
+    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
     run.run()
+    # fitness_list = list(map(lambda x: x.fitness, run.population))
+    # print(fitness_list)
 
 
 

@@ -1,1 +1,1 @@
-X1=16X2=1while(X1>0){X2=X2*X1X1=X1-1}
+read(X1)X5=X3while(X3+X2<=X5+X3){while(False){}}

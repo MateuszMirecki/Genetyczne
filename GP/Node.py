@@ -3,7 +3,7 @@ from GP.NodeType import NodeType
 import random
 
 
-MAX_FUNCTION_DIMENSION = 2
+MAX_FUNCTION_DIMENSION = 5
 MAX_BOOL_VAR_DIMENSION = 3
 
 class Node:
@@ -62,8 +62,8 @@ class Node:
         # blck statement
         self.children.append(Node(NodeType.LEFTBRACK, value="{", parent=self, isterminal=True, depth=current_depth - 1, max_width=self.max_width))
         # borders width of tree
-        for _ in range(random.randint(0, self.max_width)):
-            self.children.append(Node(NodeType.expressions, parent=self, depth=current_depth - 1, max_width=self.max_width))
+       
+        self.children.append(Node(NodeType.expressions, parent=self, depth=current_depth - 1, max_width=self.max_width))
         self.children.append(Node(NodeType.RIGHTBRACK, value="}", parent=self, isterminal=True, depth=current_depth - 1, max_width=self.max_width))
 
     def grow_while_loop(self):
@@ -88,8 +88,12 @@ class Node:
         self.children.append(Node(NodeType.RIGHTPREN, value=")", parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
 
     def grow_read_var(self):
-        choiceList = [NodeType.NUM_VAR, NodeType.BOOL_VAR]
-        chosen_element = random.choice(choiceList)
+
+        if random.random() < 0.9:
+            chosen_element = NodeType.NUM_VAR
+        else:
+            chosen_element = NodeType.BOOL_VAR
+
         if self.children == []:
             self.children.append(Node(NodeType.READ, value="read", parent=self, isterminal=True, depth=self.depth - 1))
             self.children.append(Node(NodeType.LEFTPREN, value="(", parent=self, isterminal=True, depth=self.depth - 1))
@@ -179,7 +183,6 @@ class Node:
                     self.children.append(Node(NodeType.numeric_value, parent=self, depth=self.depth - 1,
                                             max_width=self.max_width))
                 case 5:
-                    print("case 5 \n\n\n\n")
                     self.children.append(Node(NodeType.bool_value, parent=self, depth=self.depth - 1,
                                             max_width=self.max_width))
                     choiceList = [NodeType.AND, NodeType.OR]
@@ -208,7 +211,20 @@ class Node:
                     raise ValueError("Error during growing bool_value.")
 
     def grow_numeric_value(self):
-        option = random.randint(1, 5)
+        random_0_1 = random.random()
+        if random_0_1 < 0.1:
+            option = 1
+        elif random_0_1 < 0.35:
+            option = 2
+        elif random_0_1 < 0.4:
+            option = 3
+        elif random_0_1 < 0.41:
+            option = 4
+        elif random_0_1 < 0.5:
+            option = 5
+        else:
+            option = 9
+
         if self.children == []: 
             match option:
                 case 1:
@@ -257,8 +273,38 @@ class Node:
                     self.children.append(
                         Node(NodeType.RIGHTPREN, value=")", parent=self, isterminal=True, depth=self.depth - 1,
                             max_width=self.max_width))
+
+                case 9:
+                    self.children.append(Node(NodeType.NUM_VAR, value="X" + str(random.randint(1, MAX_FUNCTION_DIMENSION)), parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
+                    if random.random() < 0.8:
+                        choiceList = [NodeType.ADD]
+                    else:
+                        choiceList = [ NodeType.SUB, NodeType.MUL, NodeType.DIV]
+                    chosen_element = random.choice(choiceList)
+                    match chosen_element:
+                        case NodeType.ADD:
+                            self.children.append(
+                                Node(NodeType.ADD, value="+", parent=self, isterminal=True, depth=self.depth - 1,
+                                    max_width=self.max_width))
+                        case NodeType.SUB:
+                            self.children.append(
+                                Node(NodeType.SUB, value="-", parent=self, isterminal=True, depth=self.depth - 1,
+                                    max_width=self.max_width))
+                        case NodeType.MUL:
+                            self.children.append(
+                                Node(NodeType.MUL, value="*", parent=self, isterminal=True, depth=self.depth - 1,
+                                    max_width=self.max_width))
+                        case NodeType.DIV:
+                            self.children.append(
+                                Node(NodeType.DIV, value="/", parent=self, isterminal=True, depth=self.depth - 1,
+                                    max_width=self.max_width))
+
+                    self.children.append(Node(NodeType.NUM_VAR, value="X" + str(random.randint(1, MAX_FUNCTION_DIMENSION)), parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
+
+        
                 case _:
                     raise ValueError("Error during growing bool_value.")
+                
 
     def grow(self) -> None:
         match self.node_type:
@@ -272,7 +318,6 @@ class Node:
                     else:
                         expression_parent = self.parent
                         expression_parent.children.remove(self)
-
                 else:
                     pass
 
@@ -316,7 +361,7 @@ class Node:
                     self.grow_bool_value()
                 else:
                     if self.children == []:
-                        self.children.append(Node(NodeType.TRUE, value="True", parent=self, isterminal=True,
+                        self.children.append(Node(NodeType.FALSE, value="False", parent=self, isterminal=True,
                                                 depth=self.depth - 1))
                     else:
                         pass

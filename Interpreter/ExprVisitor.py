@@ -16,6 +16,7 @@ class ExprVisitor(ParseTreeVisitor):
         self.counter = 0
         self.loop_iterations = 0
         self.max_loop_iterations = max_loop_iterations
+        self.number_of_read_numeric_var = 0
         
     def visitProgram(self, ctx:ExprParser.ProgramContext):
         with open('output.txt', 'w') as f:
@@ -49,7 +50,7 @@ class ExprVisitor(ParseTreeVisitor):
     def visitWhile_loop(self, ctx:ExprParser.While_loopContext):
         self.counter += 1
         if self.loop_iterations > self.max_loop_iterations:
-            print ("Max loop iterations reached.")
+            # print ("Max loop iterations reached.")
             return
         # print(self.loop_iterations)
         # print(self.counter)
@@ -62,7 +63,7 @@ class ExprVisitor(ParseTreeVisitor):
                 return 0
             if condition:
                 if self.loop_iterations > self.max_loop_iterations:
-                    print ("Max loop iterations reached.")
+                    # print ("Max loop iterations reached.")
                     return
                 self.loop_iterations += 1
 
@@ -108,6 +109,8 @@ class ExprVisitor(ParseTreeVisitor):
         if variable_name:
             variable_name = ctx.getChild(2).getText()
             if variable_name[0] == 'X':
+                self.number_of_read_numeric_var += 1
+
                 self.incrementInputIndex()
                 if self.input_values[self.input_index] == 'True':
                     self.variables[variable_name] = 1

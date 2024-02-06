@@ -11,7 +11,7 @@ from operations import EvolutionOperations
 
 
 #Populacja
-population = [generateTree(9,15) for i in range(5)] #Zwraca losową populację
+population = [generateTree(4,4) for i in range(1)] #Zwraca losową populację
 popolation_len = len(population)
 
 for pop in range(popolation_len):

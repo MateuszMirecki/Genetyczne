@@ -1,132 +1,190 @@
-def fitness_1_1_A(out, excpected_out):
+def fitness_1_1_A(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
-        return -1000
+        return -1234
     elif 1 in out:
         return 0
     for i in range(len(excpected_out)):
         fit += -abs(out[i] - excpected_out[i])
     return fit
 
-def fitness_1_1_B(out, excpected_out):
+def fitness_1_1_B(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
-        return -10000
+        return -2345
     elif 789 in out:
         return 0
     for i in range(len(excpected_out)):
         fit += -abs(out[i] - excpected_out[i])
     return fit
 
-def fitness_1_1_C(out, excpected_out):
+def fitness_1_1_C(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
-        return -100000
+        return -345678
     elif 31415 in out:
         return 0
     for i in range(len(excpected_out)):
         fit += -abs(out[i] - excpected_out[i])
     return fit
 
-def fitness_1_1_D(out, excpected_out):
+def fitness_1_1_D(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
         return -1000
-    elif 1 in out:
+    elif out[0] == 1:
         return 0
     for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+        fit += 10 * -abs(out[i] - excpected_out[i])
     return fit
 
-def fitness_1_1_E(out, excpected_out):
+def fitness_1_1_E(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
         return -1000
-    elif 1 in out:
+    elif out[0] == 789:
         return 0
     for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+        fit += 100 * -abs(out[i] - excpected_out[i])
     return fit
 
-def fitness_1_1_F(out, excpected_out):
+def fitness_1_1_F(out, excpected_out, read_vars=0):
+
     fit = 0
+
+    if out == [1]:
+        return fit 
+
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
-        return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+        fit += -1000
+    if len(out) > 1:
+        fit += -1000000
+    else:
+        fit += -2000    
     return fit
 
-def fitness_1_2_A(out, excpected_out):
+def fitness_1_2_A(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_2_B(out, excpected_out):
+
+def fitness_1_2_B(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_2_C(out, excpected_out):
+def fitness_1_2_C(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_2_D(out, excpected_out):
+def fitness_1_2_D(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_2_E(out, excpected_out):
+def fitness_1_2_E(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_3_A(out, excpected_out):
+def fitness_1_3_A(out, excpected_out, read_vars=0):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
 
-def fitness_1_3_B(out, excpected_out):
+def fitness_1_3_B(input_data, output):
     fit = 0
+    if read_vars < 2:
+        fit += -10000  
     if len(out) == 0:
-        return -1000
-    elif 1 in out:
+        fit += -1000
+    if len(out) > 1:
+        fit += -10000
+    if out[0] == excpected_out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        fit += -10000
+
     return fit
+
+def fitness_1_4_A(input_data, output):
+    fit = 0
+    if read_vars < 10:
+        fit += -1000  
+    if len(out) == 0:
+        fit += -10
+    if len(out) > 1:
+        fit += -1000000
+    if out[0] == excpected_out:
+        return 0
+    else:
+        fit += -10000
+
+    return fit
+
+
 
 fittness_functions = {
     "1_1_A": fitness_1_1_A,
@@ -141,7 +199,8 @@ fittness_functions = {
     "1_2_D": fitness_1_2_D,
     "1_2_E": fitness_1_2_E,
     "1_3_A": fitness_1_3_A,
-    "1_3_B": fitness_1_3_B
+    "1_3_B": fitness_1_3_B,
+    "1_4_A": fitness_1_4_A
 
 }
 

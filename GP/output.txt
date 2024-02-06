@@ -1,1 +1,0 @@
-write(666!=226&&198<718)while(158<=257||B3){while(False){read(X3)}}while(True||988<=1000){B2=False}while(B2){write(336)if(False){}X1=87X5=479}read(X1)if(True){while(False){}}

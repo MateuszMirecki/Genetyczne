@@ -99,7 +99,7 @@ class EvolutionOperations:
                     isCompatible = True
                     break
 
-                if timer1 > 1000:
+                if timer1 > 100:
                     timer1 = 0
                     break
 
@@ -108,8 +108,8 @@ class EvolutionOperations:
                 break
 
             timer2 += 1
-            if timer2 > 1000:
-                print("error")
+            if timer2 > 100:
+                print("Crossover error")
                 raise RuntimeError("No compatible nodes for crossover")
 
 
@@ -160,7 +160,7 @@ class EvolutionOperations:
         return max_height + 1
 
     def getRandomNode(self, root: Node)->Node:
-        random_node_number = random.randint(1, self.tree_height(root)-1)
+        random_node_number = random.randint(0, self.tree_height(root)-1)
         # print(5 - random_node_number)
         while random_node_number > 0 and len(root.children) > 0:
             random_node_number -= 1
@@ -189,6 +189,9 @@ class Program:
 
     def correctFitness(self):
         self.fitness = self.fitness_function(self.program, self.fittness_function_name)
+
+    def add_fittness(self):
+        self.fitness += self.fitness_function(self.program, self.fittness_function_name)
 
 class Run:
     def __init__(self, population_size: int, fitness_function, depth: int, max_width: int, fittness_function_name: str):
@@ -232,16 +235,24 @@ class Run:
         print('---------------------------------')
 
 
+    def correct_fittness_for_whole_population(self):
+        for program_class in self.population:
+            program_class.add_fittness()
+
+
     def run(self):
-        generationNumber = 0
+        generationNumber = 1
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):
                 if random.random() < CROSSOVER_PROBABILITY:
-                    program1, program2 = self.evolutionOperations.crossover(self.population)
-                    self.negative_tournament(TOURNAMENT_SIZE)
-                    self.negative_tournament(TOURNAMENT_SIZE)
-                    self.population.append(program1)
-                    self.population.append(program2)
+                    try:
+                        program1, program2 = self.evolutionOperations.crossover(self.population)
+                        self.negative_tournament(TOURNAMENT_SIZE)
+                        self.negative_tournament(TOURNAMENT_SIZE)
+                        self.population.append(program1)
+                        self.population.append(program2)
+                    except RuntimeError:
+                        pass
 
                 if random.random() < MUTATION_PROBABILITY:
                     program_class = self.evolutionOperations.mutation(self.population)
@@ -250,13 +261,17 @@ class Run:
 
             self.print_generation_info(generationNumber)
 
+
             if self.check_if_population_is_correct(self.population):
                 print(f"Correct program found during generation {generationNumber}.")
                 program_class = self.check_if_population_is_correct(self.population)
                 program_class.program.printTree()
                 return
 
+            self.correct_fittness_for_whole_population()
             generationNumber += 1
+
+
 
 
 if __name__ == "__main__":
@@ -293,7 +308,7 @@ if __name__ == "__main__":
 
 
         # Run test
-    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
+    run = Run(1000, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_B")
     run.run()
 
     print()

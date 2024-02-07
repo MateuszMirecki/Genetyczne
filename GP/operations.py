@@ -5,6 +5,8 @@ from Node import Node
 from Node import generateTree
 from NodeType import NodeType
 
+import GP.fitnes_functions
+
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
 ROUNDS_PER_GENERATION = 10
@@ -211,7 +213,7 @@ class Run:
     def get_worst_individual(self, population):
         return min(population, key=lambda x: x.fitness)
 
-<<<<<<< HEAD
+
     def check_if_population_is_correct(self, population):
         for program_class in population:
             if program_class.fitness == 0:
@@ -220,8 +222,7 @@ class Run:
                 program_class.program.printTree()
         return False
 
-=======
->>>>>>> ddcaab07e3a5692f71a49d696dace68309c502ec
+
     def run(self):
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):

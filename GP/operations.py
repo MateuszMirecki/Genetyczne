@@ -26,7 +26,7 @@ class EvolutionOperations:
 
     def mutation(self, population):
         types_for_mutation = [NodeType.if_statement, NodeType.while_loop, NodeType.wrtie_val,
-                              NodeType.read_var, NodeType.assignment]
+                              NodeType.read_var, NodeType.assignment, NodeType.numeric_value, NodeType.bool_value]
 
         new_program_class = self.tournament(population, TOURNAMENT_SIZE)
         new_program_class_copy = copy.deepcopy(new_program_class)
@@ -42,9 +42,17 @@ class EvolutionOperations:
             random_node = self.getRandomNode(program)
 
 
+        match random_node.node_type:
+            case NodeType.numeric_value:
+                switch_node = Node(NodeType.numeric_value, parent=random_node.parent,
+                                   depth=random_node.depth, max_width=random_node.max_width)
+            case NodeType.bool_value:
+                switch_node = Node(NodeType.bool_value, parent=random_node.parent,
+                                   depth=random_node.depth, max_width=random_node.max_width)
+            case _:
+                switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
+                                   depth=random_node.depth, max_width=random_node.max_width)
 
-        switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
-                           depth=random_node.depth, max_width=random_node.max_width)
         switch_node.grow()
 
 
@@ -298,7 +306,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(5, GP.fitnes_functions.calculate_fitness_function, 5, 5, fittness_func)
+        gp_run = Run(100, GP.fitnes_functions.calculate_fitness_function, 5, 5, fittness_func)
         gp_run.run()
 
         

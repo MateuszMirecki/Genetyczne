@@ -2,6 +2,9 @@ from typing import Any
 from GP.NodeType import NodeType
 import random
 
+MIN_NUMERIC = 0
+MAX_NUMERIC = 1000
+
 
 
 MAX_FUNCTION_DIMENSION = 5
@@ -373,7 +376,7 @@ class Node:
                 else:
                     if self.children == []:
                         self.children.append(
-                            Node(NodeType.NUMBER, value=str(random.randint(1, 1000)), parent=self, isterminal=True,
+                            Node(NodeType.NUMBER, value=str(random.randint(MIN_NUMERIC, MAX_NUMERIC)), parent=self, isterminal=True,
                                 depth=self.depth - 1))
                     else:
                         pass

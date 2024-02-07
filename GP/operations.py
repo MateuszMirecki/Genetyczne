@@ -251,18 +251,21 @@ class Run:
     def print_generation_info(self, generation_number):
         best_individual = max(self.population, key=lambda x: x.fitness)
         best_fitness = best_individual.fitness
-        # print(f"Generation: {generation_number}")
-        # print(f"Best fitness: {best_fitness} for:")
-        # best_individual.program.printTree()
-        # print('---------------------------------')
+
+        print(f"Generation: {generation_number}")
+        print(f"Best fitness: {best_fitness} for:")
+        best_individual.program.printTree()
+        print('---------------------------------')
+
             # Append best fitness for each generation to a file
         program_str = best_individual.program._buildTreeString()
         with open(f"example_{self.fitness_function_name}best_fitness_per_generation.txt", "a") as file:
-            file.write(f"Generation: {generation_number}, Best fitness: {best_fitness}\n Program: {program_str}\n\n")
+            file.write(f"Generation: {generation_number}, Best fitness: {best_fitness}\n Program: {program_str}\n\n"+
+                       f"Population size: {len(self.population)} ")
 
     def correct_fittness_for_whole_population(self):
         for program_class in self.population:
-            program_class.add_fittness()
+            program_class.correctFitness()
 
 
     def run(self):

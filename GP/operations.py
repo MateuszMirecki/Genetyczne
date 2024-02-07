@@ -54,7 +54,10 @@ class EvolutionOperations:
                 switch_node = Node(NodeType.bool_value, parent=random_node.parent,
                                    depth=random_node.depth, max_width=random_node.max_width)
             case _:
-                switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
+                types_for_mutation_copy = types_for_mutation.copy()
+                types_for_mutation_copy.remove(NodeType.numeric_value)
+                types_for_mutation_copy.remove(NodeType.bool_value)
+                switch_node = Node(random.choice(types_for_mutation_copy), parent=random_node.parent,
                                    depth=random_node.depth, max_width=random_node.max_width)
 
         switch_node.grow()

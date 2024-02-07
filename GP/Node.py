@@ -3,7 +3,7 @@ from GP.NodeType import NodeType
 import random
 
 MIN_NUMERIC = 0
-MAX_NUMERIC = 1000
+MAX_NUMERIC = 100
 
 
 

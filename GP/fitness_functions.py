@@ -32,8 +32,9 @@ def fitness_1_1_B(out, excpected_out, read_vars=0):
         return -2345
     elif 789 in out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        for i in range(len(excpected_out)):
+            fit += -abs(out[i] - excpected_out[i])
     return fit
 
 def fitness_1_1_C(out, excpected_out, read_vars=0):
@@ -42,8 +43,9 @@ def fitness_1_1_C(out, excpected_out, read_vars=0):
         return -345678
     elif 31415 in out:
         return 0
-    for i in range(len(excpected_out)):
-        fit += -abs(out[i] - excpected_out[i])
+    else:
+        for i in range(len(excpected_out)):
+            fit += -abs(out[i] - excpected_out[i])
     return fit
 
 def fitness_1_1_D(out, excpected_out, read_vars=0):
@@ -52,8 +54,9 @@ def fitness_1_1_D(out, excpected_out, read_vars=0):
         return -1000
     elif out[0] == 1:
         return 0
-    for i in range(len(excpected_out)):
-        fit += 10 * -abs(out[i] - excpected_out[i])
+    else:
+        for i in range(len(excpected_out)):
+            fit += 10 * -abs(out[i] - excpected_out[i])
     return fit
 
 def fitness_1_1_E(out, excpected_out, read_vars=0):
@@ -62,8 +65,9 @@ def fitness_1_1_E(out, excpected_out, read_vars=0):
         return -1000
     elif out[0] == 789:
         return 0
-    for i in range(len(excpected_out)):
-        fit += 100 * -abs(out[i] - excpected_out[i])
+    else:
+        for i in range(len(excpected_out)):
+            fit += 100 * -abs(out[i] - excpected_out[i])
     return fit
 
 def fitness_1_1_F(out, excpected_out, read_vars=0):

@@ -9,9 +9,9 @@ import GP.fitnes_functions
 
 CROSSOVER_PROBABILITY = 0.95
 MUTATION_PROBABILITY = 0.05
-ROUNDS_PER_GENERATION = 10
-GENERATION_NUMBER = 10
-TOURNAMENT_SIZE = 2
+ROUNDS_PER_GENERATION = 100
+GENERATION_NUMBER = 100
+TOURNAMENT_SIZE = 3
 
 
 class EvolutionOperations:
@@ -223,15 +223,17 @@ class Run:
                 program_class.program.printTree()
         return False
 
-    def print_generation_info(self):
+    def print_generation_info(self, generation_number):
         best_individual = max(self.population, key=lambda x: x.fitness)
         best_fitness = best_individual.fitness
+        print(f"Generation: {generation_number}")
         print(f"Best fitness: {best_fitness} for:")
         best_individual.program.printTree()
         print('---------------------------------')
 
 
     def run(self):
+        generationNumber = 0
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):
                 if random.random() < CROSSOVER_PROBABILITY:
@@ -241,17 +243,20 @@ class Run:
                     self.population.append(program1)
                     self.population.append(program2)
 
-                else:
+                if random.random() < MUTATION_PROBABILITY:
                     program_class = self.evolutionOperations.mutation(self.population)
                     self.negative_tournament(TOURNAMENT_SIZE)
                     self.population.append(program_class)
 
-            self.print_generation_info()
+            self.print_generation_info(generationNumber)
+
             if self.check_if_population_is_correct(self.population):
-                print("Correct program found.")
+                print(f"Correct program found during generation {generationNumber}.")
                 program_class = self.check_if_population_is_correct(self.population)
                 program_class.program.printTree()
                 return
+
+            generationNumber += 1
 
 
 if __name__ == "__main__":
@@ -288,8 +293,10 @@ if __name__ == "__main__":
 
 
         # Run test
-    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_B")
+    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
     run.run()
+
+    print()
     fitness_list = list(map(lambda x: x.fitness, run.population))
     print(fitness_list)
 

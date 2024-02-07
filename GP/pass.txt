@@ -1,4 +1,0 @@
-Program passed
-while ( ! False ) { X5 = 789 read ( X2 ) B3 = False B2 = False } write ( X5 + X4 ) if ( ( False ) ) { while ( False ) { } } write ( False ) 
-output [789, 0]
-Done

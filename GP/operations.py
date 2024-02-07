@@ -22,35 +22,35 @@ class EvolutionOperations:
                               NodeType.read_var, NodeType.assignment]
 
         new_program_class = self.tournament(population, TOURNAMENT_SIZE)
-        program = new_program_class.program
-        program = copy.deepcopy(program)
+        new_program_class_copy = copy.deepcopy(new_program_class)
+        program = new_program_class_copy.program
 
-        # test mutation
-        program.printTree()
-        print()
+            # test mutation
+        # program.printTree()
+        # print()
 
         random_node = self.getRandomNode(program)
 
         while(not random_node.node_type in types_for_mutation):
             random_node = self.getRandomNode(program)
 
-            # mutation test
-        print(random_node)
-        print()
+
 
         switch_node = Node(random.choice(types_for_mutation), parent=random_node.parent,
                            depth=random_node.depth, max_width=random_node.max_width)
         switch_node.grow()
-        # # print(switch_node)
-        #
+
+
+
+
         random_node_children_array_index = random_node.parent.children.index(random_node)
         random_node.parent.children[random_node_children_array_index] = switch_node
 
-
+            # mutation test
         # program.printTree()
-        new_program_class.program = program
+
         new_program_class.correctFitness()
-        return new_program_class
+        return new_program_class_copy
 
 
     def crossover(self, population):
@@ -223,72 +223,75 @@ class Run:
                 program_class.program.printTree()
         return False
 
+    def print_generation_info(self):
+        best_individual = max(self.population, key=lambda x: x.fitness)
+        best_fitness = best_individual.fitness
+        print(f"Best fitness: {best_fitness} for:")
+        best_individual.program.printTree()
+        print('---------------------------------')
+
 
     def run(self):
         for _ in range(GENERATION_NUMBER):
             for _ in range(ROUNDS_PER_GENERATION):
                 if random.random() < CROSSOVER_PROBABILITY:
                     program1, program2 = self.evolutionOperations.crossover(self.population)
-
                     self.negative_tournament(TOURNAMENT_SIZE)
                     self.negative_tournament(TOURNAMENT_SIZE)
-
                     self.population.append(program1)
                     self.population.append(program2)
 
+                else:
+                    program_class = self.evolutionOperations.mutation(self.population)
+                    self.negative_tournament(TOURNAMENT_SIZE)
+                    self.population.append(program_class)
 
-                    self.population.append(program1)
-                    self.population.append(program2)
-                # else:
-                #     self.population.append(self.evolutionOperations.mutation(self.population))
-                #     self.population = self.negative_tournament(self.population, TOURNAMENT_SIZE)
-
-
-
-
-
-
+            self.print_generation_info()
+            if self.check_if_population_is_correct(self.population):
+                print("Correct program found.")
+                program_class = self.check_if_population_is_correct(self.population)
+                program_class.program.printTree()
+                return
 
 
 if __name__ == "__main__":
     evolution = EvolutionOperations()
 
         # crossover test
-    run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6, "1_1_A")
-
-    fitnes_list = list(map(lambda x: x.fitness, run.population))
-    print(fitnes_list)
-    for program in run.population:
-        program.program.printTree()
-
-    program_class1, program_class_2 = evolution.crossover(run.population)
-
-    run.negative_tournament(TOURNAMENT_SIZE)
-    run.negative_tournament(TOURNAMENT_SIZE)
-
-    run.population.append(program_class1)
-    run.population.append(program_class_2)
-
-    print('------------------')
-
-    fitnes_list = list(map(lambda x: x.fitness, run.population))
-    print(fitnes_list)
-    for program in run.population:
-        program.program.printTree()
+    # run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6, "1_1_A")
+    #
+    # fitnes_list = list(map(lambda x: x.fitness, run.population))
+    # print(fitnes_list)
+    # for program in run.population:
+    #     program.program.printTree()
+    #
+    # program_class1, program_class_2 = evolution.crossover(run.population)
+    #
+    # run.negative_tournament(TOURNAMENT_SIZE)
+    # run.negative_tournament(TOURNAMENT_SIZE)
+    #
+    # run.population.append(program_class1)
+    # run.population.append(program_class_2)
+    #
+    # print('------------------')
+    #
+    # fitnes_list = list(map(lambda x: x.fitness, run.population))
+    # print(fitnes_list)
+    # for program in run.population:
+    #     program.program.printTree()
 
 
 
         # mutation test
-    # run = Run(10, 1, 3, 5)
+    # run = Run(10, GP.fitnes_functions.calculate_fitness_function, 3, 6,"1_1_A")
     # program_class1 = evolution.mutation(run.population)
-    # program_class1.program.printTree()
+
 
         # Run test
-
-    # run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
-    # run.run()
-    # fitness_list = list(map(lambda x: x.fitness, run.population))
-    # print(fitness_list)
+    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_B")
+    run.run()
+    fitness_list = list(map(lambda x: x.fitness, run.population))
+    print(fitness_list)
 
 
 

@@ -34,7 +34,7 @@ def fitness_1_1_B(out, excpected_out, read_vars=0):
         return 0
     else:
         for i in range(len(excpected_out)):
-            fit += -abs(out[i] - excpected_out[i])
+            fit += 50 * -abs(out[i] - excpected_out[i])
     return fit
 
 def fitness_1_1_C(out, excpected_out, read_vars=0):

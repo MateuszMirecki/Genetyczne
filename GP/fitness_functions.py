@@ -28,13 +28,17 @@ def fitness_1_1_A(out, excpected_out, read_vars=0):
 
 def fitness_1_1_B(out, excpected_out, read_vars=0):
     fit = 0
-    if len(out) == 0:
-        return -2345
-    elif 789 in out:
+    if 789 in out:
         return 0
+    elif len(out) == 0:
+        fit += -10000
+    elif len(out) > 1:
+        for i in range(len(out)):
+            if out[i] != 789:
+    
+                fit += -10
     else:
-        for i in range(len(excpected_out)):
-            fit += 50 * -abs(out[i] - excpected_out[i])
+        fit += -10000
     return fit
 
 def fitness_1_1_C(out, excpected_out, read_vars=0):
@@ -62,12 +66,11 @@ def fitness_1_1_D(out, excpected_out, read_vars=0):
 def fitness_1_1_E(out, excpected_out, read_vars=0):
     fit = 0
     if len(out) == 0:
-        return -1000
+        return -100000
     elif out[0] == 789:
         return 0
     else:
-        for i in range(len(excpected_out)):
-            fit += 100 * -abs(out[i] - excpected_out[i])
+        fit += 100 * -abs(out[0] - excpected_out[0])
     return fit
 
 def fitness_1_1_F(out, excpected_out, read_vars=0):

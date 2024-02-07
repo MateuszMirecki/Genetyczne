@@ -320,8 +320,9 @@ class Node:
                     if self.depth > 0:
                         self.grow_expressions()
                     else:
-                        expression_parent = self.parent
-                        expression_parent.children.remove(self)
+                        # expression_parent = self.parent
+                        # expression_parent.children.remove(self)
+                        pass
                 else:
                     pass
 
@@ -329,22 +330,25 @@ class Node:
                 if self.depth > 0:
                     self.grow_if_statement()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.while_loop:
                 if self.depth > 0:
                     self.grow_while_loop()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.wrtie_val:
                 if self.depth > 0:
                     self.grow_write_val()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.read_var:
                 self.grow_read_var()

@@ -33,10 +33,8 @@ def fitness_1_1_B(out, excpected_out, read_vars=0):
     elif len(out) == 0:
         fit += -10000
     elif len(out) > 1:
-        for i in range(len(out)):
-            if out[i] != 789:
-    
-                fit += -10
+        distances_from_789 = [abs(x - 789) for x in out]
+        fit += -min(distances_from_789)
     else:
         fit += -10000
     return fit

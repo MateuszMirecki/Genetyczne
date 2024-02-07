@@ -50,10 +50,10 @@ class EvolutionOperations:
         match random_node.node_type:
             case NodeType.numeric_value:
                 switch_node = Node(NodeType.numeric_value, parent=random_node.parent,
-                                   depth=random_node.depth, max_width=random_node.max_width)
+                                   depth=0, max_width=random_node.max_width)
             case NodeType.bool_value:
                 switch_node = Node(NodeType.bool_value, parent=random_node.parent,
-                                   depth=random_node.depth, max_width=random_node.max_width)
+                                   depth=0, max_width=random_node.max_width)
             case _:
                 types_for_mutation_copy = types_for_mutation.copy()
                 types_for_mutation_copy.remove(NodeType.numeric_value)
@@ -191,7 +191,7 @@ class EvolutionOperations:
         return root
 
     def tournament(self, population, tournament_size: int):
-        competitors = random.sample(population, 2)
+        competitors = random.sample(population, tournament_size)
 
         # print(len(competitors))
         # for competitor in competitors:
@@ -291,8 +291,6 @@ class Run:
                     self.negative_tournament(TOURNAMENT_SIZE)
                     self.population.append(program_class)
 
-            self.print_generation_info(generationNumber)
-
 
             if self.check_if_population_is_correct(self.population):
                 print(f"Correct program found during generation {generationNumber}.")
@@ -300,7 +298,8 @@ class Run:
                 program_class.program.printTree()
                 return
 
-            self.correct_fittness_for_whole_population()
+            # self.correct_fittness_for_whole_population()
+            self.print_generation_info(generationNumber)
             generationNumber += 1
 
 
@@ -330,7 +329,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(250, GP.fitnes_functions.calculate_fitness_function, 5, 5, fittness_func)
+        gp_run = Run(250, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
         

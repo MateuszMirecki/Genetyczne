@@ -13,8 +13,8 @@ from read_data import read_data
 from fitness_functions import get_fit_func
 
 
-CROSSOVER_PROBABILITY = 0.6
-MUTATION_PROBABILITY = 0.4
+CROSSOVER_PROBABILITY = 0.1
+MUTATION_PROBABILITY = 0.9
 
 ROUNDS_PER_GENERATION = 20
 GENERATION_NUMBER = 20
@@ -23,7 +23,8 @@ TOURNAMENT_SIZE = 3
 #     in GP.Node file
 # MIN_NUMERIC = 0
 # MAX_NUMERIC = 1000
-
+from Node import MIN_NUMERIC
+from Node import MAX_NUMERIC
 
 class EvolutionOperations:
 
@@ -259,9 +260,12 @@ class Run:
 
             # Append best fitness for each generation to a file
         program_str = best_individual.program._buildTreeString()
-        with open(f"example_{self.fitness_function_name}best_fitness_per_generation.txt", "a") as file:
-            file.write(f"Generation: {generation_number}, Best fitness: {best_fitness}\n Program: {program_str}\n\n"+
-                       f"Population size: {len(self.population)} ")
+        with open(f"..\Out\example_{self.fitness_function_name}_generations_data", "a") as file:
+            file.write(f"Generation: {generation_number}, Best fitness: {best_fitness}, Program: {program_str}, "
+                       f"Population size: {len(self.population)}, Crossover probability: {CROSSOVER_PROBABILITY}, "
+                       f"Mutation probability: {MUTATION_PROBABILITY}, Rounds per generation: {ROUNDS_PER_GENERATION}, Tournament size: {TOURNAMENT_SIZE}, "
+                       f"Depth: {best_individual.program.depth}, Max width: {best_individual.program.max_width}, "
+                       f"Min numeric value: {MIN_NUMERIC}, Max numeric value: {MAX_NUMERIC}\n")
 
     def correct_fittness_for_whole_population(self):
         for program_class in self.population:
@@ -305,8 +309,22 @@ class Run:
 if __name__ == "__main__":
     evolution = EvolutionOperations()
 
-    fit_func_names =     [
-                            '1_1_B']
+    fit_func_names = [
+        '1_1_A',
+        '1_1_B',
+        '1_1_C',
+        '1_1_D',
+        '1_1_E',
+        '1_1_F',
+        '1_2_A',
+        '1_2_B',
+        '1_2_C',
+        '1_2_D',
+        '1_2_E',
+        '1_3_A',
+        '1_3_B',
+        '1_4_A',
+    ]
 
     for fittness_func in fit_func_names:
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")

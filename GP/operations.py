@@ -135,7 +135,8 @@ class EvolutionOperations:
         # print('-----------------------------------------')
 
 
-
+        new_program_class_1.correctFitness()
+        new_program_class_2.correctFitness()
 
         return new_program_class_1, new_program_class_2
 
@@ -168,10 +169,12 @@ class EvolutionOperations:
 
     def tournament(self, population, tournament_size: int):
         competitors = random.sample(population, 2)
-        print(len(competitors))
-        for competitor in competitors:
-            competitor.program.printTree()
-        print('------------------')
+
+        # print(len(competitors))
+        # for competitor in competitors:
+        #     competitor.program.printTree()
+        # print('------------------')
+
         return max(competitors, key=lambda x: x.fitness)
 
 
@@ -212,11 +215,11 @@ class Run:
         return min(population, key=lambda x: x.fitness)
 
     def check_if_population_is_correct(self, population):
-        fitness_list = map(lambda x: x.fitness, population)
-        if 0 in fitness_list:
-            fitness_list = list(fitness_list)
-            index_of_correct_program = fitness_list.index(0)
-            return population[index_of_correct_program]
+        for program_class in population:
+            if program_class.fitness == 0:
+                return program_class
+                print("Correct program found")
+                program_class.program.printTree()
         return False
 
     def run(self):
@@ -238,8 +241,8 @@ class Run:
                     self.population.append(program2)
 
 
-                    # self.population.append(program1)
-                    # self.population.append(program2)
+                    self.population.append(program1)
+                    self.population.append(program2)
                 # else:
                 #     self.population.append(self.evolutionOperations.mutation(self.population))
                 #     self.population = self.negative_tournament(self.population, TOURNAMENT_SIZE)
@@ -255,10 +258,30 @@ if __name__ == "__main__":
     evolution = EvolutionOperations()
 
         # crossover test
-    # run = Run(10, 1, 3, 5)
-    # program_class1, program_class_2 =  evolution.crossover(run.population)
-    # program_class1.program.printTree()
-    # program_class_2.program.printTree()
+    run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
+
+    fitnes_list = list(map(lambda x: x.fitness, run.population))
+    print(fitnes_list)
+    for program in run.population:
+        program.program.printTree()
+
+    program_class1, program_class_2 = evolution.crossover(run.population)
+
+
+    run.negative_tournament(TOURNAMENT_SIZE)
+    run.negative_tournament(TOURNAMENT_SIZE)
+
+    run.population.append(program_class1)
+    run.population.append(program_class_2)
+
+    print('------------------')
+
+    fitnes_list = list(map(lambda x: x.fitness, run.population))
+    print(fitnes_list)
+    for program in run.population:
+        program.program.printTree()
+
+
 
         # mutation test
     # run = Run(10, 1, 3, 5)
@@ -266,8 +289,8 @@ if __name__ == "__main__":
     # program_class1.program.printTree()
 
         # Run test
-    run = Run(100, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
-    run.run()
+    # run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
+    # run.run()
     # fitness_list = list(map(lambda x: x.fitness, run.population))
     # print(fitness_list)
 

@@ -32,6 +32,10 @@ if __name__ == "__main__":
     #     print(f"Fitness {fit}: {count} occurrences")
 
     root = generateTree(5,5)
+    while calculate_fitness_function(root, "1_1_A") != 0:
+        root = generateTree(5,5)
+
     root.printTree()
+
     fit = calculate_fitness_function(root, "1_1_A")
     print(f"fittness: {fit}")

@@ -1,16 +1,23 @@
 import random
 import copy
-
+import sys
+import os
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from Node import Node
 from Node import generateTree
 from NodeType import NodeType
 
 import GP.fitnes_functions
+from read_data import read_data
+from fitness_functions import get_fit_func
 
-CROSSOVER_PROBABILITY = 0.95
-MUTATION_PROBABILITY = 0.05
-ROUNDS_PER_GENERATION = 100
-GENERATION_NUMBER = 100
+
+CROSSOVER_PROBABILITY = 0.6
+MUTATION_PROBABILITY = 0.4
+
+ROUNDS_PER_GENERATION = 20
+GENERATION_NUMBER = 20
 TOURNAMENT_SIZE = 3
 
 
@@ -109,7 +116,7 @@ class EvolutionOperations:
 
             timer2 += 1
             if timer2 > 100:
-                print("Crossover error")
+                # print("Crossover error")
                 raise RuntimeError("No compatible nodes for crossover")
 
 
@@ -229,11 +236,14 @@ class Run:
     def print_generation_info(self, generation_number):
         best_individual = max(self.population, key=lambda x: x.fitness)
         best_fitness = best_individual.fitness
-        print(f"Generation: {generation_number}")
-        print(f"Best fitness: {best_fitness} for:")
-        best_individual.program.printTree()
-        print('---------------------------------')
-
+        # print(f"Generation: {generation_number}")
+        # print(f"Best fitness: {best_fitness} for:")
+        # best_individual.program.printTree()
+        # print('---------------------------------')
+            # Append best fitness for each generation to a file
+        program_str = best_individual.program._buildTreeString()
+        with open(f"example_{self.fitness_function_name}best_fitness_per_generation.txt", "a") as file:
+            file.write(f"Generation: {generation_number}, Best fitness: {best_fitness}\n Program: {program_str}\n\n")
 
     def correct_fittness_for_whole_population(self):
         for program_class in self.population:
@@ -277,44 +287,19 @@ class Run:
 if __name__ == "__main__":
     evolution = EvolutionOperations()
 
-        # crossover test
-    # run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6, "1_1_A")
-    #
-    # fitnes_list = list(map(lambda x: x.fitness, run.population))
-    # print(fitnes_list)
-    # for program in run.population:
-    #     program.program.printTree()
-    #
-    # program_class1, program_class_2 = evolution.crossover(run.population)
-    #
-    # run.negative_tournament(TOURNAMENT_SIZE)
-    # run.negative_tournament(TOURNAMENT_SIZE)
-    #
-    # run.population.append(program_class1)
-    # run.population.append(program_class_2)
-    #
-    # print('------------------')
-    #
-    # fitnes_list = list(map(lambda x: x.fitness, run.population))
-    # print(fitnes_list)
-    # for program in run.population:
-    #     program.program.printTree()
+    fit_func_names =     [
+                            '1_2_E',
+                            '1_3_A',
+                            '1_3_B',
+                            '1_4_A',
+                            'for_index']
 
+    for fittness_func in fit_func_names:
+        inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
+        fitness_function = get_fit_func(fittness_func)
 
+        gp_run = Run(5, GP.fitnes_functions.calculate_fitness_function, 5, 5, fittness_func)
+        gp_run.run()
 
-        # mutation test
-    # run = Run(10, GP.fitnes_functions.calculate_fitness_function, 3, 6,"1_1_A")
-    # program_class1 = evolution.mutation(run.population)
-
-
-        # Run test
-    run = Run(1000, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_B")
-    run.run()
-
-    print()
-    fitness_list = list(map(lambda x: x.fitness, run.population))
-    print(fitness_list)
-
-
-
+        
 

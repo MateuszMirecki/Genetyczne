@@ -2,8 +2,8 @@ from typing import Any
 from GP.NodeType import NodeType
 import random
 
-from GP.operations import MIN_NUMERIC
-from GP.operations import MAX_NUMERIC
+MIN_NUMERIC = 0
+MAX_NUMERIC = 1000
 
 
 

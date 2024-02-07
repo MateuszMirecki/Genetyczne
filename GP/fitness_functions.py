@@ -164,16 +164,29 @@ def fitness_1_2_E(out, excpected_out, read_vars=0):
 
 def fitness_1_3_A(out, excpected_out, read_vars=0):
     fit = 0
-    if read_vars < 2:
-        fit += -10000  
+
+        # write
     if len(out) == 0:
-        fit += -1000
-    elif len(out) > 1:
-        fit += -10000
-    elif out[0] == excpected_out:
-        return 0
-    else:
-        fit += -10000
+        fit += -1
+    for i in range(2,100):
+        if len(out) == i:
+            fit += -i
+    if len(out) > 100:
+        fit += -100
+
+        #read
+    if read_vars == 0:
+        fit += -2
+    if read_vars == 1:
+        fit += -1
+    for i in range(3,100):
+        if read_vars == i:
+            fit += -i
+    if read_vars > 100:
+        fit += -100
+
+
+
 
     return fit
 

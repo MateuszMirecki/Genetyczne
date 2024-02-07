@@ -33,5 +33,6 @@ if __name__ == "__main__":
 
     root = generateTree(6,6)
     root.printTree()
+
     fit = calculate_fitness_function(root, "1_1_A")
     print(f"fittness: {fit}")

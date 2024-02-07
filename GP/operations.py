@@ -191,10 +191,11 @@ class Program:
         self.fitness = self.fitness_function(self.program, self.fittness_function_name)
 
 class Run:
-    def __init__(self, population_size: int, fitness_function, depth: int, max_width: int):
+    def __init__(self, population_size: int, fitness_function, depth: int, max_width: int, fittness_function_name: str):
         self.fitness_function = fitness_function
         self.evolutionOperations = EvolutionOperations()
-        self.population = self.get_population(fitness_function, depth, max_width, population_size)
+        self.population = self.get_population(fitness_function, depth, max_width, population_size, fittness_function_name)
+        self.fitness_function_name = fittness_function_name
 
 
     def negative_tournament(self, tournament_size: int):
@@ -204,10 +205,10 @@ class Run:
 
 
 
-    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int)->list[Program]:
+    def get_population(self, fitness_function, depth: int, max_width: int, population_size: int, fitness_function_name)->list[Program]:
         population = []
         for i in range(population_size):
-            population.append(Program(fitness_function, depth, max_width))
+            population.append(Program(fitness_function, depth, max_width, fitness_function_name))
         return population
 
     def get_worst_individual(self, population):
@@ -253,7 +254,7 @@ if __name__ == "__main__":
     evolution = EvolutionOperations()
 
         # crossover test
-    run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6,"1_1_A")
+    run = Run(3, GP.fitnes_functions.calculate_fitness_function, 6, 6, "1_1_A")
 
     fitnes_list = list(map(lambda x: x.fitness, run.population))
     print(fitnes_list)
@@ -261,7 +262,6 @@ if __name__ == "__main__":
         program.program.printTree()
 
     program_class1, program_class_2 = evolution.crossover(run.population)
-
 
     run.negative_tournament(TOURNAMENT_SIZE)
     run.negative_tournament(TOURNAMENT_SIZE)

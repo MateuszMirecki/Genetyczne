@@ -15,7 +15,7 @@ def calculate_fitness_function(root: Node, function_name)->int:
     output = result[0]
     number_or_read_input = result[4]
     input_numbers = result[3]
-    new_fittness = get_fit_func(function_name)(result[0], expected_output[0], input_numbers, number_or_read_input)
+    new_fittness = get_fit_func(function_name)(result[0], expected_output[0], input_numbers, number_or_read_input,result[1])
 
     return new_fittness
 

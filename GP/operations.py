@@ -329,8 +329,8 @@ if __name__ == "__main__":
         # '1_3_B',
         # '1_4_A',
         # '26_median'
-        # '2_small_or_large'
-        '6_collatz'
+        '2_small_or_large'
+        # '6_collatz'
     ]
 
     for fittness_func in fit_func_names:

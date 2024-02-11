@@ -8,7 +8,7 @@ from GP.NodeType import NodeType
 import random
 
 MIN_NUMERIC = 0
-MAX_NUMERIC = 100
+MAX_NUMERIC = 10
 
 
 

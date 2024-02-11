@@ -2,6 +2,9 @@ import random
 import copy
 import sys
 import os
+import pickle
+
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 from Node import Node
@@ -59,7 +62,7 @@ class EvolutionOperations:
                 types_for_mutation_copy.remove(NodeType.numeric_value)
                 types_for_mutation_copy.remove(NodeType.bool_value)
                 switch_node = Node(random.choice(types_for_mutation_copy), parent=random_node.parent,
-                                   depth=random_node.depth, max_width=random_node.max_width)
+                                   depth=0, max_width=random_node.max_width)
 
         switch_node.grow()
 
@@ -268,10 +271,19 @@ class Run:
                        f"Min numeric value: {MIN_NUMERIC}, Max numeric value: {MAX_NUMERIC}\n")
             if generation_number == GENERATION_NUMBER:
                 file.write("\n")
+        self.save_generation_list_to_pickle()
 
     def correct_fittness_for_whole_population(self):
         for program_class in self.population:
             program_class.correctFitness()
+
+    def save_generation_list_to_pickle(self):
+        with open(f"..\Out\example_{self.fitness_function_name}_best_generation_list", "wb") as file:
+            pickle.dump(self.population, file)
+
+    def load_generation_list_from_pickle(self):
+        with open(f"..\Out\example_{self.fitness_function_name}_generations_data", "rb") as file:
+            self.population = pickle.load(file)
 
 
     def run(self):
@@ -332,7 +344,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(300, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        gp_run = Run(300, GP.fitnes_functions.calculate_fitness_function, 6, 1, fittness_func)
         gp_run.run()
 
         

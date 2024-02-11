@@ -6,7 +6,7 @@ else:
 
 class ExprVisitor(ParseTreeVisitor):
 
-    def __init__(self, input_values=[4,5,6], instruction_limit=100000, output_limit=100, max_loop_iterations=1000):
+    def __init__(self, input_values=[4,5,6], instruction_limit=100_000_000, output_limit=100, max_loop_iterations=1000):
         self.variables = {}
         self.output = []
         self.output_limit = output_limit

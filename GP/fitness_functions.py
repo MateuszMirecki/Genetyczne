@@ -91,49 +91,122 @@ def fitness_1_1_F(out, excpected_out,input_numbers, read_vars=0, current_variabl
 
 
 
+def teach_to_read_only_2_vars_and_return_only_one(out, excpected_out, read_vars=0, current_variables = "{'X1':1}" ):
+    fit = 0
+    if read_vars  == 2 and len(out) == 1:
+        return 0
+
+    if read_vars == 0:
+        fit += -2
+    if read_vars == 2:
+        fit += -1
+    for i in range(3, 100):
+        if read_vars == i:
+            fit += -i
+    if read_vars >= 100:
+        fit += -1000
+
+    if len(out) == 0:
+        fit += -1
+    for i in range(2, 100):
+        if len(out) == i:
+            fit += -i
+    if len(out) >= 100:
+        fit += -1000
+
+    return fit
+
 def fitness_1_2_A(out, excpected_out,input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
     fit = 0
-    if read_vars < 2:
-        fit += -10000  
-    elif len(out) == 0:
+
+    if read_vars == 2 and len(out) == 1:
+        distance_from_expected_value = abs(input_numbers[0] + input_numbers[1] - out[0])
+        fit += -distance_from_expected_value
+
+    if input_numbers[0] not in current_variables.values() or input_numbers[1] not in current_variables.values():
+        fit += -100
+
+
+    if read_vars == 0:
+        fit += -2
+    if read_vars == 2:
+        fit += -1
+    for i in range(3, 100):
+        if read_vars == i:
+            fit += -i
+    if read_vars >= 100:
         fit += -1000
-    elif len(out) > 1:
-        fit += -10000
-    elif out[0] == excpected_out:
-        return 0
-    else:
-        fit += -10000
+
+    if len(out) == 0:
+        fit += -1
+    for i in range(2, 100):
+        if len(out) == i:
+            fit += -i
+    if len(out) >= 100:
+        fit += -1000
+
 
     return fit
 
 
+
 def fitness_1_2_B(out, excpected_out,input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
     fit = 0
-    if read_vars < 2:
-        fit += -10000  
-    if len(out) == 0:
+
+    if read_vars == 2 and len(out) == 1:
+        distance_from_expected_value = abs(input_numbers[0] + input_numbers[1] - out[0])
+        fit += -distance_from_expected_value
+
+    if input_numbers[0] not in current_variables.values() or input_numbers[1] not in current_variables.values():
+        fit += -100
+
+    if read_vars == 0:
+        fit += -2
+    if read_vars == 2:
+        fit += -1
+    for i in range(3, 100):
+        if read_vars == i:
+            fit += -i
+    if read_vars >= 100:
         fit += -1000
-    elif len(out) > 1:
-        fit += -10000
-    elif out[0] == excpected_out:
-        return 0
-    else:
-        fit += -10000
+
+    if len(out) == 0:
+        fit += -1
+    for i in range(2, 100):
+        if len(out) == i:
+            fit += -i
+    if len(out) >= 100:
+        fit += -1000
 
     return fit
 
 def fitness_1_2_C(out, excpected_out,input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
     fit = 0
-    if read_vars < 2:
-        fit += -10000  
-    elif len(out) == 0:
+
+    if read_vars == 2 and len(out) == 1:
+        distance_from_expected_value = abs(input_numbers[0] + input_numbers[1] - out[0])
+        fit += -distance_from_expected_value
+
+    if input_numbers[0] not in current_variables.values() or input_numbers[1] not in current_variables.values():
+        fit += -100
+
+    if read_vars == 0:
+        fit += -2
+    if read_vars == 2:
+        fit += -1
+    for i in range(3, 100):
+        if read_vars == i:
+            fit += -i
+    if read_vars >= 100:
         fit += -1000
-    elif len(out) > 1:
-        fit += -10000
-    elif out[0] == excpected_out:
-        return 0
-    else:
-        fit += -10000
+
+    if len(out) == 0:
+        fit += -1
+    for i in range(2, 100):
+        if len(out) == i:
+            fit += -i
+    if len(out) >= 100:
+        fit += -1000
 
     return fit
 

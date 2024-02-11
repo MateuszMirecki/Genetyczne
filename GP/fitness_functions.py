@@ -33,62 +33,63 @@ def fitness_1_1_A(out, excpected_out, input_numbers, read_vars=0, current_variab
 
 def fitness_1_1_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
-    if 789 in out:
-        return 0
-    elif len(out) == 0:
+    for number in out:
+        if 789 - 0.01 <= number <= 789 + 0.01:
+            return 0
+    if len(out) == 0:
         fit += -10000
-    elif len(out) > 1:
+    if len(out) > 0:
         distances_from_789 = [abs(x - 789) for x in out]
         fit += -min(distances_from_789)
-    else:
-        fit += -10000
     return fit
 
 def fitness_1_1_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
+    for number in out:
+        if 31415 - 0.01 <= number <= 31415 + 0.01:
+            return 0
     if len(out) == 0:
-        return -345678
-    elif 31415 in out:
-        return 0
-    else:
-        for i in range(len(excpected_out)):
-            fit += -abs(out[i] - excpected_out[i])
+        fit += -1000
+    if len(out) > 0:
+        distance_from_31415 = [abs(x - 31415) for x in out]
+        fit += -min(distance_from_31415)
     return fit
 
 def fitness_1_1_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
+    if 1.0-0.001 >= out[0] >= 1.0 + 0.001:
+        return 0
     if len(out) == 0:
         return -1000
-    elif out[0] == 1:
-        return 0
-    else:
-        for i in range(len(excpected_out)):
-            fit += 10 * -abs(out[i] - excpected_out[i])
+    if len(out)>0:
+        distances_from_1 = abs(out[0] - 1)
+        fit += -distances_from_1
     return fit
 
 def fitness_1_1_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
-    if len(out) == 0:
-        return -100000
-    elif out[0] == 789:
+    if 789 - 0.01 >= out[0] >= 789.0 + 0.01:
         return 0
-    else:
-        fit += 100 * -abs(out[0] - excpected_out[0])
+    if len(out) == 0:
+        fit += -1000
+    if len(out) > 0:
+        distance_from_789 = abs(out[0] - 789)
+        fit += -distance_from_789
     return fit
 
 def fitness_1_1_F(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
 
     fit = 0
 
-    if out == [1]:
-        return fit 
+    for number in out:
+        if 1 - 0.01 <= number <= 1 + 0.01:
+            return 0
+    if len(out) != 0:
+        for _ in out:
+            fit += -100
 
-    if len(out) == 0:
-        fit += -1000
-    if len(out) > 1:
-        fit += -1000000
-    else:
-        fit += -2000    
+    distance_from_1 = [abs(out[x] - 1) for x in out]
+    fit += -min(distance_from_1)
     return fit
 
 def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):

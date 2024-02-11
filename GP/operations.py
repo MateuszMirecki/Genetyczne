@@ -266,6 +266,8 @@ class Run:
                        f"Mutation probability: {MUTATION_PROBABILITY}, Rounds per generation: {ROUNDS_PER_GENERATION}, Tournament size: {TOURNAMENT_SIZE}, "
                        f"Depth: {best_individual.program.depth}, Max width: {best_individual.program.max_width}, "
                        f"Min numeric value: {MIN_NUMERIC}, Max numeric value: {MAX_NUMERIC}\n")
+            if generation_number == GENERATION_NUMBER:
+                file.write("\n")
 
     def correct_fittness_for_whole_population(self):
         for program_class in self.population:
@@ -291,6 +293,7 @@ class Run:
                     self.negative_tournament(TOURNAMENT_SIZE)
                     self.population.append(program_class)
 
+            self.print_generation_info(generationNumber)
 
             if self.check_if_population_is_correct(self.population):
                 print(f"Correct program found during generation {generationNumber}.")
@@ -299,7 +302,7 @@ class Run:
                 return
 
             # self.correct_fittness_for_whole_population()
-            self.print_generation_info(generationNumber)
+
             generationNumber += 1
 
 
@@ -309,6 +312,8 @@ if __name__ == "__main__":
     evolution = EvolutionOperations()
 
     fit_func_names = [
+        # '1_1_A',
+        '1_1_B',
         '1_1_A',
         # '1_1_B',
         # '1_1_C',
@@ -329,7 +334,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(50, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        gp_run = Run(250, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
         

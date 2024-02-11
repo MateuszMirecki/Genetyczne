@@ -132,7 +132,7 @@ def fitness_1_2_C(out, excpected_out,input_numbers, read_vars=0, current_variabl
 
     return fit
 
-def fitness_1_2_D(out, excpected_out,input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
+def fitness_1_2_D(out, excpected_out, input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
     fit = 0
     if read_vars < 2:
         fit += -10000  
@@ -185,8 +185,8 @@ def fitness_1_3_A(out, excpected_out,input_numbers,read_vars=0, current_variable
     if read_vars > 100:
         fit += -100
 
-    if max(input_numbers) != max(out):
-        fit += -100
+    # if max(input_numbers) != max(out):
+    #     fit += -100
 
 
     return fit

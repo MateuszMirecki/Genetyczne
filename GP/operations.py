@@ -291,6 +291,7 @@ class Run:
                     self.negative_tournament(TOURNAMENT_SIZE)
                     self.population.append(program_class)
 
+            self.print_generation_info(generationNumber)
 
             if self.check_if_population_is_correct(self.population):
                 print(f"Correct program found during generation {generationNumber}.")
@@ -299,7 +300,7 @@ class Run:
                 return
 
             # self.correct_fittness_for_whole_population()
-            self.print_generation_info(generationNumber)
+
             generationNumber += 1
 
 
@@ -309,7 +310,7 @@ if __name__ == "__main__":
     evolution = EvolutionOperations()
 
     fit_func_names = [
-        # '1_1_A',
+        '1_1_A',
         # '1_1_B',
         # '1_1_C',
         # '1_1_D',
@@ -320,7 +321,7 @@ if __name__ == "__main__":
         # '1_2_C',
         # '1_2_D',
         # '1_2_E',
-        '1_3_A',
+        # '1_3_A',
         # '1_3_B',
         # '1_4_A',
     ]

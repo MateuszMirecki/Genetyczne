@@ -13,7 +13,7 @@ from GP.Node import generateTree
 
 test = """
 
-write ( - 3 ) X5 = X2 write ( True ) read(X1) write(X1)
+while ( B2 ) { X5 = 81.68 write ( 70.87 ) } write ( 39.18 - 53.99 ) 
 
 """
 

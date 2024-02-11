@@ -17,6 +17,7 @@ class ExprVisitor(ParseTreeVisitor):
         self.loop_iterations = 0
         self.max_loop_iterations = max_loop_iterations
         self.number_of_read_numeric_var = 0
+        self.number_of_inputs_after_reading_all_vars = 0
         
     def visitProgram(self, ctx:ExprParser.ProgramContext):
         with open('output.txt', 'w') as f:
@@ -98,6 +99,8 @@ class ExprVisitor(ParseTreeVisitor):
             else:
                 self.output.append(0)
         else:
+            if self.number_of_read_numeric_var >= len(self.input_values):
+                self.number_of_inputs_after_reading_all_vars += 1
             self.output.append(self.visitNumeric_value(expression))
         
     

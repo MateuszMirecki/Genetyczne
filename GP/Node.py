@@ -226,7 +226,19 @@ class Node:
                     raise ValueError("Error during growing bool_value.")
 
     def grow_numeric_value(self):
-        option = random.randint(1, 5)
+        # option = random.randint(1, 5)
+        rand_val = random.random()
+
+        if rand_val < 0.05:
+            option = 1
+        elif rand_val < 0.2:
+            option = 2
+        elif rand_val < 0.23:
+            option = 3
+        elif rand_val < 0.7:
+            option = 4
+        else:
+            option = 9
 
         if self.children == []: 
             match option:

@@ -13,13 +13,12 @@ from GP.Node import generateTree
 
 test = """
 
-write (X2) read (X1) read (X2) read (X3) write (X1) 
-
+if ( ( ( False ) ) ) { B1 = False } read ( X4 ) read ( B3 ) read ( X5 ) write ( X5 + X4 ) if ( True ) { while ( False ) { write ( 18.64 ) read ( X1 ) } } 
 """
 
 inf = "X1 = 16 X2 =1 while (X1 > 0) { X2 = X2 * X1 X1 = X1 - 1} "
 
-input, output = read_data("../Inputs/example_1_1_A.txt") #Zwraca input i output z pliku
+input, output = read_data("../Inputs/example_1_2_C.txt") #Zwraca input i output z pliku
 
 interpreter = Interpreter(input_values=input[2], test=test) 
 result = interpreter.run() #Zwraca wynik testu

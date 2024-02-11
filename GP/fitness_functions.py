@@ -105,18 +105,24 @@ def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
             else:
                 pass
         
-        if number_of_inputs_in_vars < len(input_numbers):
-            fit += - 200
+        if number_of_inputs_after_reading_all_vars == 1 and len(out) == 1:
+            
+            if number_of_inputs_in_vars < len(input_numbers):
+                fit += -200
         
-        if len(out) == 0:
-            fit += -150
-        elif len(out) == 1:
-            if out[0] == excpected_out[0]:
-                return 0
+            if len(out) == 0:
+                fit += -90
+            elif len(out) == 1:
+                if out[0] == excpected_out[0]:
+                    return 0
+                else:
+                    fit += -100  
             else:
-                fit -= 100  
+                fit += -300
         else:
             fit += -300
+    else:
+        fit += -400
 
     return fit
 
@@ -152,15 +158,34 @@ def fitness_1_2_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
 def fitness_1_2_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
     if read_vars < 2:
-        fit += -10000  
-    elif len(out) == 0:
-        fit += -1000
-    elif len(out) > 1:
-        fit += -10000
-    elif out[0] == excpected_out:
-        return 0
+        fit += -400
+    if read_vars >= 2:
+        
+        number_of_inputs_in_vars = 0
+        for input_value in input_numbers:
+            if input_value in current_variables.values():
+                number_of_inputs_in_vars += 1
+            else:
+                pass
+        
+        if number_of_inputs_after_reading_all_vars == 1 and len(out) == 1:
+            
+            if number_of_inputs_in_vars < len(input_numbers):
+                fit += -200
+        
+            if len(out) == 0:
+                fit += -90
+            elif len(out) == 1:
+                if out[0] == excpected_out[0]:
+                    return 0
+                else:
+                    fit += -100  
+            else:
+                fit += -300
+        else:
+            fit += -300
     else:
-        fit += -10000
+        fit += -400
 
     return fit
 

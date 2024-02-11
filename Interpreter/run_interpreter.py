@@ -18,7 +18,7 @@ class Interpreter:
         tree = parser.program()
         visitor = ExprVisitor(self.input_values)
         visitor.visit(tree)
-        return visitor.output, visitor.variables, visitor.counter, visitor.input_values, visitor.number_of_read_numeric_var
+        return visitor.output, visitor.variables, visitor.counter, visitor.input_values, visitor.number_of_read_numeric_var, visitor.number_of_inputs_after_reading_all_vars
 
 # Usage example
 # interpreter = Interpreter()

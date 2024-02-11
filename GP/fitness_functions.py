@@ -92,9 +92,6 @@ def fitness_1_1_F(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
     fit += -min(distance_from_1)
     return fit
 
-def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
-    pass
-
 
 
 def teach_to_read_only_2_vars_and_return_only_one(out, excpected_out, read_vars=0, current_variables = "{'X1':1}" ):
@@ -122,7 +119,7 @@ def teach_to_read_only_2_vars_and_return_only_one(out, excpected_out, read_vars=
 
     return fit
 
-def fitness_1_2_A(out, excpected_out,input_numbers, read_vars=0, current_variables = "{'X1':1}" ):
+def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
     fit = 0
     if read_vars < 2:
         fit += -400

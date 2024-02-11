@@ -13,7 +13,39 @@ def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1
         if fit == 0:
             return 0
     return fit
-                
+
+def fitness_26_median(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
+    # Zwrócić większą z inputu
+    fit = 0
+    if read_vars < 3:
+        fit += -400
+    if read_vars >= 3:
+        
+        number_of_inputs_in_vars = 0
+        for input_value in input_numbers:
+            if input_value in current_variables.values():
+                number_of_inputs_in_vars += 1
+            else:
+                pass
+        
+        if number_of_inputs_in_vars < len(input_numbers):
+            fit += - 200
+        
+        if number_of_outputs_after_reading_all_vars == 1:
+
+            if len(out) == 0:
+                fit += -150
+            elif len(out) == 1:
+                if out[0] >= min(excpected_out) and out[0] <= max(excpected_out) and out[0] in input_numbers:
+                    return 0
+                else:
+                    fit -= 100  
+            else:
+                fit += -300
+        else:
+            fit += -400
+
+    return fit
 
 def fitness_1_1_A(out, excpected_out, input_numbers, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ,):
     fit = 0
@@ -309,7 +341,8 @@ fittness_functions = {
     "1_3_A": fitness_1_3_A,
     "1_3_B": fitness_1_3_B,
     "1_4_A": fitness_1_4_A,
-    "for_index": fitness_for_index
+    "for_index": fitness_for_index,
+    "26_median": fitness_26_median
 
 }
 

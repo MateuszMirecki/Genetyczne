@@ -322,12 +322,13 @@ if __name__ == "__main__":
         # '1_1_F',
         # '1_2_A',
         # '1_2_B',
-        '1_2_C',
+        # '1_2_C',
         # '1_2_D',
         # '1_2_E',
         # '1_3_A',
         # '1_3_B',
         # '1_4_A',
+        '26_median'
     ]
 
     for fittness_func in fit_func_names:

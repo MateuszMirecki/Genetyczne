@@ -9,6 +9,7 @@ from GP.Node import generateTree
 from GP.Node import Node
 
 def calculate_fitness_function(root: Node, function_name)->int:
+    number_of_test = 3 # numer of test that is line in input file
     input, expected_output = read_data(f"../Inputs/example_{function_name}.txt") #Zwraca input i output z pliku
     interpreter = Interpreter(input_values=input[0], test=f"{root._buildTreeString()}") 
     result = interpreter.run() 

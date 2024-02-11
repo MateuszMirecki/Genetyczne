@@ -391,7 +391,7 @@ def generateTree(depth, width):
 
 
 if __name__ == "__main__":
-    root = generateTree(5,3)
+    root = generateTree(14,22)
     root.printTree()
 
     # arr = [1, 2, 3, 4, 5]

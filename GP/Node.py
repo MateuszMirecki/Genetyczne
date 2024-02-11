@@ -3,7 +3,7 @@ from GP.NodeType import NodeType
 import random
 
 MIN_NUMERIC = 0
-MAX_NUMERIC = 1000
+MAX_NUMERIC = 100
 
 
 
@@ -215,25 +215,13 @@ class Node:
                     raise ValueError("Error during growing bool_value.")
 
     def grow_numeric_value(self):
-        random_0_1 = random.random()
-        if random_0_1 < 0.1:
-            option = 1
-        elif random_0_1 < 0.35:
-            option = 2
-        elif random_0_1 < 0.4:
-            option = 3
-        elif random_0_1 < 0.41:
-            option = 4
-        elif random_0_1 < 0.5:
-            option = 5
-        else:
-            option = 9
+        option = random.randint(1, 5)
 
         if self.children == []: 
             match option:
                 case 1:
                     self.children.append(
-                        Node(NodeType.NUMBER, value=str(random.randint(1, 1000)), parent=self, isterminal=True,
+                        Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC),2)), parent=self, isterminal=True,
                             depth=self.depth - 1, max_width=self.max_width))
                 case 2:
                     self.children.append(
@@ -280,10 +268,8 @@ class Node:
 
                 case 9:
                     self.children.append(Node(NodeType.NUM_VAR, value="X" + str(random.randint(1, MAX_FUNCTION_DIMENSION)), parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
-                    if random.random() < 0.8:
-                        choiceList = [NodeType.ADD]
-                    else:
-                        choiceList = [ NodeType.SUB, NodeType.MUL, NodeType.DIV]
+
+                    choiceList = [ NodeType.SUB, NodeType.MUL, NodeType.DIV, NodeType.ADD]
                     chosen_element = random.choice(choiceList)
                     match chosen_element:
                         case NodeType.ADD:
@@ -320,8 +306,9 @@ class Node:
                     if self.depth > 0:
                         self.grow_expressions()
                     else:
-                        expression_parent = self.parent
-                        expression_parent.children.remove(self)
+                        # expression_parent = self.parent
+                        # expression_parent.children.remove(self)
+                        pass
                 else:
                     pass
 
@@ -329,22 +316,25 @@ class Node:
                 if self.depth > 0:
                     self.grow_if_statement()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.while_loop:
                 if self.depth > 0:
                     self.grow_while_loop()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.wrtie_val:
                 if self.depth > 0:
                     self.grow_write_val()
                 else:
-                    expression = self.parent.parent
-                    expression.children.remove(self.parent)
+                    # expression = self.parent.parent
+                    # expression.children.remove(self.parent)
+                    pass
 
             case NodeType.read_var:
                 self.grow_read_var()
@@ -376,7 +366,7 @@ class Node:
                 else:
                     if self.children == []:
                         self.children.append(
-                            Node(NodeType.NUMBER, value=str(random.randint(MIN_NUMERIC, MAX_NUMERIC)), parent=self, isterminal=True,
+                            Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC), 2)), parent=self, isterminal=True,
                                 depth=self.depth - 1))
                     else:
                         pass

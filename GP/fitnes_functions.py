@@ -13,8 +13,9 @@ def calculate_fitness_function(root: Node, function_name)->int:
     interpreter = Interpreter(input_values=input[0], test=f"{root._buildTreeString()}") 
     result = interpreter.run() 
     output = result[0]
-    number_or_read_input = result[4]  
-    new_fittness = get_fit_func(function_name)(result[0], expected_output[0],number_or_read_input)
+    number_or_read_input = result[4]
+    input_numbers = result[3]
+    new_fittness = get_fit_func(function_name)(result[0], expected_output[0], input_numbers, number_or_read_input)
 
     return new_fittness
 

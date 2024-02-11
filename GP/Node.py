@@ -88,8 +88,14 @@ class Node:
         self.children.append(Node(NodeType.RIGHTBRACK, value="}", parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
 
     def grow_write_val(self):
-        choiceList = [NodeType.numeric_value, NodeType.bool_value]
-        chosen_element = random.choice(choiceList)
+        
+        # choiceList = [NodeType.numeric_value, NodeType.bool_value]
+        # chosen_element = random.choice(choiceList)
+
+        if random.random() < 0.99:
+            chosen_element = NodeType.numeric_value
+        else:
+            chosen_element = NodeType.bool_value
 
         self.children.append(Node(NodeType.WRITE, value="write", parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
         self.children.append(Node(NodeType.LEFTPREN, value="(", parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
@@ -98,7 +104,7 @@ class Node:
 
     def grow_read_var(self):
 
-        if random.random() < 0.9:
+        if random.random() < 0.95:
             chosen_element = NodeType.NUM_VAR
         else:
             chosen_element = NodeType.BOOL_VAR
@@ -391,7 +397,7 @@ def generateTree(depth, width):
 
 
 if __name__ == "__main__":
-    root = generateTree(5,3)
+    root = generateTree(14,22)
     root.printTree()
 
     # arr = [1, 2, 3, 4, 5]

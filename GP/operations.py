@@ -16,7 +16,7 @@ from fitness_functions import get_fit_func
 CROSSOVER_PROBABILITY = 0.75
 MUTATION_PROBABILITY = 0.25
 
-ROUNDS_PER_GENERATION = 250
+ROUNDS_PER_GENERATION = 40
 GENERATION_NUMBER = 100
 TOURNAMENT_SIZE = 3
 
@@ -309,7 +309,7 @@ if __name__ == "__main__":
     evolution = EvolutionOperations()
 
     fit_func_names = [
-        # '1_1_A',
+        '1_1_A',
         # '1_1_B',
         # '1_1_C',
         # '1_1_D',
@@ -320,7 +320,7 @@ if __name__ == "__main__":
         # '1_2_C',
         # '1_2_D',
         # '1_2_E',
-        '1_3_A',
+        # '1_3_A',
         # '1_3_B',
         # '1_4_A',
     ]
@@ -329,7 +329,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(250, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        gp_run = Run(50, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
         

@@ -13,7 +13,7 @@ from GP.Node import generateTree
 
 test = """
 
-while ( B2 ) { X5 = 81.68 write ( 70.87 ) } write ( 39.18 - 53.99 ) 
+write (X2) read (X1) read (X2) read (X3) write (X1) 
 
 """
 
@@ -29,3 +29,4 @@ print(f"Variables {result[1]}")
 print(f"Counter {result[2]}")
 print(f"Input_values {result[3]}")
 print(f"Number of read input {result[4]}")
+print(f"How many writes after reading whole input {result[5]}")

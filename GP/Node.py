@@ -233,7 +233,7 @@ class Node:
             match option:
                 case 1:
                     self.children.append(
-                        Node(NodeType.NUMBER, value=str(random.randint(1, 1000)), parent=self, isterminal=True,
+                        Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC)), 2), parent=self, isterminal=True,
                             depth=self.depth - 1, max_width=self.max_width))
                 case 2:
                     self.children.append(
@@ -280,10 +280,8 @@ class Node:
 
                 case 9:
                     self.children.append(Node(NodeType.NUM_VAR, value="X" + str(random.randint(1, MAX_FUNCTION_DIMENSION)), parent=self, isterminal=True, depth=self.depth - 1, max_width=self.max_width))
-                    if random.random() < 0.8:
-                        choiceList = [NodeType.ADD]
-                    else:
-                        choiceList = [ NodeType.SUB, NodeType.MUL, NodeType.DIV]
+
+                    choiceList = [ NodeType.SUB, NodeType.MUL, NodeType.DIV, NodeType.ADD]
                     chosen_element = random.choice(choiceList)
                     match chosen_element:
                         case NodeType.ADD:
@@ -380,7 +378,7 @@ class Node:
                 else:
                     if self.children == []:
                         self.children.append(
-                            Node(NodeType.NUMBER, value=str(random.randint(MIN_NUMERIC, MAX_NUMERIC)), parent=self, isterminal=True,
+                            Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC), 2)), parent=self, isterminal=True,
                                 depth=self.depth - 1))
                     else:
                         pass

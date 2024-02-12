@@ -8,6 +8,8 @@ def fitness_regression(out, excpected_out, input_numbers, read_vars=0, current_v
         else:
             fit -= 200
 
+    else:
+        return -1500
     return fit
 
 

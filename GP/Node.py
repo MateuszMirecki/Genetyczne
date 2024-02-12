@@ -8,7 +8,7 @@ from GP.NodeType import NodeType
 import random
 
 MIN_NUMERIC = 0
-MAX_NUMERIC = 100
+MAX_NUMERIC = 1
 
 
 
@@ -244,7 +244,7 @@ class Node:
             match option:
                 case 1:
                     self.children.append(
-                        Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC),2)), parent=self, isterminal=True,
+                        Node(NodeType.NUMBER, value=str(random.randint(MIN_NUMERIC, MAX_NUMERIC)), parent=self, isterminal=True,
                             depth=self.depth - 1, max_width=self.max_width))
                 case 2:
                     self.children.append(
@@ -389,7 +389,7 @@ class Node:
                 else:
                     if self.children == []:
                         self.children.append(
-                            Node(NodeType.NUMBER, value=str(round(random.uniform(MIN_NUMERIC, MAX_NUMERIC), 2)), parent=self, isterminal=True,
+                            Node(NodeType.NUMBER, value=str(random.randint(MIN_NUMERIC, MAX_NUMERIC)), parent=self, isterminal=True,
                                 depth=self.depth - 1))
                     else:
                         pass

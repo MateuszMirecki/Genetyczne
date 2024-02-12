@@ -10,19 +10,22 @@ from GP.Node import Node
 
 def calculate_fitness_function(root: Node, function_name)->int:
     input, expected_output = read_data(f"../Inputs/example_{function_name}.txt") #Zwraca input i output z pliku
+
+    fittnesses = 0
     with open(f"../Inputs/example_{function_name}.txt", 'r') as file:
         for line_number, line_content in enumerate(file):
             number_of_test = line_number 
-
-
-        interpreter = Interpreter(input_values=input[number_of_test], test=f"{root._buildTreeString()}") 
-        result = interpreter.run() 
-        output = result[0]
-        number_or_read_input = result[4]
-        input_numbers = result[3]
-        new_fittness = get_fit_func(function_name)(result[0], expected_output[number_of_test], input_numbers, number_or_read_input,result[1], result[5])
+            interpreter = Interpreter(input_values=input[number_of_test], test=f"{root._buildTreeString()}") 
+            result = interpreter.run() 
+            output = result[0]
+            number_or_read_input = result[4]
+            input_numbers = result[3]
+            new_fittness = get_fit_func(function_name)(result[0], expected_output[number_of_test], input_numbers, number_or_read_input,result[1], result[5])
     ##################################### ARGS OUT          excpected_out                  input_numbers  read_vars         current_variables     number_of_inputs_after_reading_all_vars
-    return new_fittness
+            fittnesses += new_fittness
+        # print(fittnesses)
+            
+    return fittnesses
 
 
 

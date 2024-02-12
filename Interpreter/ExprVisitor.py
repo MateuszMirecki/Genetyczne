@@ -276,7 +276,7 @@ class ExprVisitor(ParseTreeVisitor):
 
         # Check for NUMBER
         if ctx.NUMBER() is not None:
-            return float(ctx.NUMBER().getText())
+            return int(ctx.NUMBER().getText())
 
         # Check for NUM_VAR
         elif ctx.NUM_VAR() is not None:

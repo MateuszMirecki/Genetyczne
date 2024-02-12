@@ -13,15 +13,14 @@ from GP.Node import generateTree
 
 test = """
 
-write ( X3 / X4 ) write ( 36.58 * 54.97 ) read ( X3 ) write ( 65.85 * 54.97 + X5 - X4 ) write ( X3 / X4 ) X4 = X2 + X1 + X3 - X5
-
+read ( X4 ) if ( False || False || False && False ) { write ( 39.71 ) } while ( ( False ) ) { write ( 79.31 ) read ( X3 ) while ( False ) { } } write ( X1 / X4 ) if ( ( ( False ) ) ) { read ( X1 ) }
 """
 
 inf = "X1 = 16 X2 =1 while (X1 > 0) { X2 = X2 * X1 X1 = X1 - 1} "
 
 input, output = read_data("../Inputs/example_regression.txt") #Zwraca input i output z pliku
 
-interpreter = Interpreter(input_values=input[2], test=test) 
+interpreter = Interpreter(input_values=input[1], test=test) 
 result = interpreter.run() #Zwraca wynik testu
 print("Wynik testu:")
 print(f"Output {result[0]}")

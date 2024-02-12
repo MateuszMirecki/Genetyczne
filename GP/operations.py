@@ -16,7 +16,7 @@ from fitness_functions import get_fit_func
 CROSSOVER_PROBABILITY = 0.75
 MUTATION_PROBABILITY = 0.25
 
-ROUNDS_PER_GENERATION = 40
+ROUNDS_PER_GENERATION = 1000
 GENERATION_NUMBER = 100
 TOURNAMENT_SIZE = 3
 
@@ -339,7 +339,7 @@ if __name__ == "__main__":
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        gp_run = Run(2500, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
     

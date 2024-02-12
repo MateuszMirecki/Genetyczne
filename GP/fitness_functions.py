@@ -416,7 +416,13 @@ fittness_functions = {
     "26_median": fitness_26_median,
     "2_small_or_large": fitness_2_small_or_large,
     "6_collatz": fitness_6_collatz,
-    "regression" : fitness_regression
+    "regression" : fitness_regression,
+    "reg_1_1" : fitness_regression,
+    "reg_1_2" : fitness_regression,
+    "reg_2_1" : fitness_regression,
+    "reg_2_2" : fitness_regression,
+    "reg_2_3" : fitness_regression,
+    "reg_2_4" : fitness_regression,
 
 }
 

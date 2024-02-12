@@ -16,7 +16,7 @@ from fitness_functions import get_fit_func
 CROSSOVER_PROBABILITY = 0.75
 MUTATION_PROBABILITY = 0.25
 
-ROUNDS_PER_GENERATION = 1000
+ROUNDS_PER_GENERATION = 350
 GENERATION_NUMBER = 100
 TOURNAMENT_SIZE = 3
 
@@ -299,7 +299,7 @@ class Run:
                 print(f"Correct program found during generation {generationNumber}.")
                 program_class = self.check_if_population_is_correct(self.population)
                 program_class.program.printTree()
-                return
+                return 1
 
             # self.correct_fittness_for_whole_population()
 
@@ -333,14 +333,19 @@ if __name__ == "__main__":
         # '2_small_or_large'
         # '6_collatz'
         'regression'
+
     ]
 
-    for fittness_func in fit_func_names:
+    names = ['reg_1_1','reg_1_2','reg_2_1','reg_2_2','reg_2_3']
+
+    for fittness_func in names:
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(2500, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
-        gp_run.run()
+        gp_run = Run(800, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        res = gp_run.run()
+        if res == 1:
+            continue
 
     
     # for fittness_func in fit_func_names:

@@ -1,17 +1,52 @@
-def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_regression(out, excpected_out, input_numbers, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ,):
     fit = 0
-    if read_vars < 3:
-        fit += -1000
-    if len(out) < len(excpected_out):
-        fit += -100
-    elif len(out) > len(excpected_out):
-        fit += -100000
-    elif len(out) == len(excpected_out):
-        for i in range(len(excpected_out)):
-            if out[i] != excpected_out[i]:
-                fit += -100000
-        if fit == 0:
+    if len(out) == 0:
+        fit -= 1000
+    elif len(out) == 1:
+        if out[0] == excpected_out[0]:
             return 0
+        else:
+            fit -= 200
+
+    return fit
+
+
+
+
+def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
+    fit = 0
+
+    number_of_indexes = (excpected_out[1] - excpected_out[0]) // excpected_out [2]
+    wanted_indexes = []
+    index = excpected_out[0]
+    while(True):
+        wanted_indexes.append(index)
+        index += excpected_out[2]
+        if index > excpected_out[1]:
+            break
+
+    if read_vars < number_of_indexes:
+        fit += -1000
+    if read_vars >= number_of_indexes:
+
+        number_of_inputs_in_vars = 0
+        for input_value in input_numbers:
+            if input_value in current_variables.values():
+                number_of_inputs_in_vars += 1
+            else:
+                pass
+
+
+        if number_of_inputs_in_vars < len(input_numbers):
+            fit += - 600
+        else:
+            if number_of_outputs_after_reading_all_vars == number_of_indexes:
+
+                if out == wanted_indexes:
+                    return 0
+                else:
+                    return -200
+            
     return fit
 
 
@@ -48,7 +83,6 @@ def fitness_6_collatz(out, excpected_out,input_numbers = [1,2,3], read_vars=0, c
 
 
 def fitness_26_median(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
-    # Zwrócić większą z inputu
     fit = 0
     if read_vars < 3:
         fit += -1000
@@ -379,7 +413,8 @@ fittness_functions = {
     "for_index": fitness_for_index,
     "26_median": fitness_26_median,
     "2_small_or_large": fitness_2_small_or_large,
-    "6_collatz": fitness_6_collatz
+    "6_collatz": fitness_6_collatz,
+    "regression" : fitness_regression
 
 }
 

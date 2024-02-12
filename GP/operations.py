@@ -328,9 +328,11 @@ if __name__ == "__main__":
         # '1_3_A',
         # '1_3_B',
         # '1_4_A',
+        # 'for_index'
         # '26_median'
-        '2_small_or_large'
+        # '2_small_or_large'
         # '6_collatz'
+        'regression'
     ]
 
     for fittness_func in fit_func_names:
@@ -340,5 +342,26 @@ if __name__ == "__main__":
         gp_run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
+    
+    # for fittness_func in fit_func_names:
+ 
+
+    #     tab = ["1_1","1_2","2_1","2_2","2_3"]
+    #     for name in tab:
+    #         print(f"../Inputs/example_reg_{name}.txt")
+    #         inputs, expected_outputs = read_data(f"../Inputs/example_reg_{name}.txt")
+    #         fitness_function = get_fit_func(fittness_func)
+        
+
+    #     gp_run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+    #     gp_run.run()
+
+    # tab = ["1_1","1_2","2_1","2_2","2_3"]
+    # for name in tab:
+    #     inputs, expected_outputs = read_data(f"../Inputs/bool/example_{name}.txt")
+    #     fitness_function = get_fit_func('regression')
+
+    #     gp_run = Run(50, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+    #     gp_run.run()
         
 

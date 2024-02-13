@@ -21,7 +21,7 @@ inf = "X1 = 16 X2 =1 while (X1 > 0) { X2 = X2 * X1 X1 = X1 - 1} "
 
 input, output = read_data("../Inputs/example_26_median.txt") #Zwraca input i output z pliku
 
-interpreter = Interpreter(input_values=input[2], test=test) 
+interpreter = Interpreter(input_values=input[1], test=test) 
 result = interpreter.run() #Zwraca wynik testu
 print("Wynik testu:")
 print(f"Output {result[0]}")

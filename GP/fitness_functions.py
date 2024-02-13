@@ -1,4 +1,4 @@
-def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 3:
         fit += -1000
@@ -14,19 +14,32 @@ def fitness_for_index(out, excpected_out, read_vars=0, current_variables = "{'X1
             return 0
     return fit
 
-
-def fitness_2_small_or_large(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
+import hashlib 
+import random
+def fitness_2_small_or_large(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0, program = " "):
     
-    if excpected_out[0] < 1000:
-        print("small")
-    elif excpected_out[0] >= 2000:
-        print("large")
-    else:
-        print("nothing")
+    rand_str = str(random.random())
+
+    program_string = program + rand_str
+    # Generate a hash of the program string
+    hash_object = hashlib.sha1(program_string.encode())
+    hex_dig = hash_object.hexdigest()
+
+    # Create a 10-character long filename from the hash
+    filename = hex_dig[:10]
+
+
+    with open(f'small_2/{filename}.txt', 'w') as file:
+        if input_numbers[0] < 1000:
+            file.write(f"program returned ! small ! \n input is {input_numbers} \n ")
+        elif input_numbers[0] >= 2000:
+            file.write(f"program returned ! large ! \n input is {input_numbers} \n ")
+        else:
+            file.write(f"program returned !      ! \n input is {input_numbers} \n")
     
     return 0
 
-def fitness_6_collatz(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
+def fitness_6_collatz(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0, program = " " ):
     
     def collatz_sequence_length(n):
         count = 1
@@ -39,15 +52,24 @@ def fitness_6_collatz(out, excpected_out,input_numbers = [1,2,3], read_vars=0, c
         
         return count
 
-    result = collatz_sequence_length(excpected_out[0])
+    result = collatz_sequence_length(input_numbers[0])
 
-    print(result)
+    rand_str = str(random.random())
+
+    program_string = program + rand_str
+    hash_object = hashlib.sha1(program_string.encode())
+    hex_dig = hash_object.hexdigest()
+    filename = hex_dig[:10]
+
+
+    with open(f'collatz_6/{filename}.txt', 'w') as file:
+        file.write(f"program returned ! {result} ! \n input is {input_numbers} \n ")
     
     return 0
+    
 
 
-
-def fitness_26_median(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0 ):
+def fitness_26_median(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_outputs_after_reading_all_vars = 0, program = " " ):
     # Zwrócić większą z inputu
     fit = 0
     if read_vars < 3:
@@ -82,7 +104,7 @@ def fitness_26_median(out, excpected_out,input_numbers = [1,2,3], read_vars=0, c
 
     return fit
 
-def fitness_1_1_A(out, excpected_out, input_numbers, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ,):
+def fitness_1_1_A(out, excpected_out, input_numbers, read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ,):
     fit = 0
     if read_vars > 2:
         if number_of_inputs_after_reading_all_vars >0:
@@ -98,7 +120,7 @@ def fitness_1_1_A(out, excpected_out, input_numbers, read_vars=0, current_variab
         return -300
     return fit
 
-def fitness_1_1_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_1_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     for number in out:
         if 789 - 0.01 <= number <= 789 + 0.01:
@@ -110,7 +132,7 @@ def fitness_1_1_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
         fit += -min(distances_from_789)
     return fit
 
-def fitness_1_1_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_1_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     for number in out:
         if 31415 - 0.01 <= number <= 31415 + 0.01:
@@ -122,7 +144,7 @@ def fitness_1_1_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
         fit += -min(distance_from_31415)
     return fit
 
-def fitness_1_1_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_1_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if 1.0-0.001 >= out[0] >= 1.0 + 0.001:
         return 0
@@ -133,7 +155,7 @@ def fitness_1_1_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
         fit += -distances_from_1
     return fit
 
-def fitness_1_1_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_1_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if 789 - 0.01 >= out[0] >= 789.0 + 0.01:
         return 0
@@ -144,7 +166,7 @@ def fitness_1_1_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
         fit += -distance_from_789
     return fit
 
-def fitness_1_1_F(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_1_F(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
 
     fit = 0
 
@@ -159,7 +181,7 @@ def fitness_1_1_F(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
     fit += -min(distance_from_1)
     return fit
 
-def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 2:
         fit += -400
@@ -207,7 +229,7 @@ def fitness_1_2_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
     return fit
 
 
-def fitness_1_2_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_2_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 2:
         fit += -10000  
@@ -222,7 +244,7 @@ def fitness_1_2_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
 
     return fit
 
-def fitness_1_2_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_2_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 2:
         fit += -400
@@ -256,7 +278,7 @@ def fitness_1_2_C(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
 
     return fit
 
-def fitness_1_2_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_2_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 2:
         fit += -10000  
@@ -271,7 +293,7 @@ def fitness_1_2_D(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
 
     return fit
 
-def fitness_1_2_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 , ):
+def fitness_1_2_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " , ):
     fit = 0
     if read_vars < 2:
         fit += -10000  
@@ -286,7 +308,7 @@ def fitness_1_2_E(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
 
     return fit
 
-def fitness_1_3_A(out, excpected_out,input_numbers = [1,2,3],read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0):
+def fitness_1_3_A(out, excpected_out,input_numbers = [1,2,3],read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " "):
     # Zwrócić większą z inputu
     fit = 0
     if read_vars < 2:
@@ -315,7 +337,7 @@ def fitness_1_3_A(out, excpected_out,input_numbers = [1,2,3],read_vars=0, curren
 
     return fit
 
-def fitness_1_3_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_3_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 2:
         fit += -400
@@ -344,7 +366,7 @@ def fitness_1_3_B(out, excpected_out,input_numbers = [1,2,3], read_vars=0, curre
     return fit
 
 
-def fitness_1_4_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0 ):
+def fitness_1_4_A(out, excpected_out,input_numbers = [1,2,3], read_vars=0, current_variables = "{'X1':1}", number_of_inputs_after_reading_all_vars = 0, program = " " ):
     fit = 0
     if read_vars < 10:
         fit += -1000  

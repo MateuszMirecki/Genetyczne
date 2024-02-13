@@ -16,8 +16,8 @@ from fitness_functions import get_fit_func
 CROSSOVER_PROBABILITY = 0.75
 MUTATION_PROBABILITY = 0.25
 
-ROUNDS_PER_GENERATION = 40
-GENERATION_NUMBER = 100
+ROUNDS_PER_GENERATION = 400
+GENERATION_NUMBER = 30
 TOURNAMENT_SIZE = 3
 
 #     in GP.Node file
@@ -328,16 +328,16 @@ if __name__ == "__main__":
         # '1_3_A',
         # '1_3_B',
         # '1_4_A',
-        # '26_median'
+        '26_median'
         # '2_small_or_large'
-        '6_collatz'
+        # '6_collatz'
     ]
 
     for fittness_func in fit_func_names:
         inputs, expected_outputs = read_data(f"../Inputs/example_{fittness_func}.txt")
         fitness_function = get_fit_func(fittness_func)
 
-        gp_run = Run(10, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
+        gp_run = Run(1200, GP.fitnes_functions.calculate_fitness_function, 6, 6, fittness_func)
         gp_run.run()
 
         
